@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Golgols';
+    src: url('GolgolsRegular.eot');
+    src: local('Golgols'), local('GolgolsRegular'),
+        url('GolgolsRegular.eot?#iefix') format('embedded-opentype'),
+        url('GolgolsRegular.woff2') format('woff2'),
+        url('GolgolsRegular.woff') format('woff'),
+        url('GolgolsRegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

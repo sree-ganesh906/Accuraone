@@ -1,0 +1,75 @@
+.parallax {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.scroller {
+  display: flex;
+  white-space: nowrap;
+  text-align: center;
+  font-family: var(--font-body), sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--clr-white);
+  filter: drop-shadow(0 2px 15px rgba(145, 75, 199, 0.4));
+}
+
+.scroller span {
+  flex-shrink: 0;
+  display: inline-block;
+  padding: 0;
+}
+
+.scroller-item {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.scroller .marquee-icon-img {
+  height: 0.95em;
+  width: auto;
+  vertical-align: middle;
+  margin: 0 45px;
+  display: inline-block;
+  opacity: 0.95;
+}
+
+.scroller .glitch {
+  font-size: inherit;
+  font-weight: inherit;
+  white-space: nowrap;
+  margin: 0;
+  display: inline-block;
+  --glitch-offset-after: 3px;
+  --glitch-offset-before: -3px;
+}
+
+/* Custom class for premium look */
+.scroll-velocity-banner {
+  width: 100%;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  padding: 12px 0;
+  position: absolute;
+  top: 90px; /* Right below the default header */
+  left: 0;
+  z-index: 999; /* Above the central animations, below header */
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .scroller {
+    font-size: 2.8rem;
+  }
+  .scroll-velocity-banner {
+    top: 88px;
+  }
+}
