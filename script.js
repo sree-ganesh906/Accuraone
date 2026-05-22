@@ -337,11 +337,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxClose = document.querySelector('.lightbox-close');
+    const lightboxPrev = document.getElementById('lightbox-prev');
+    const lightboxNext = document.getElementById('lightbox-next');
     const galleryImages = document.querySelectorAll('.image-item img');
+    let currentImageIndex = -1;
 
     if (lightbox && galleryImages.length > 0) {
-        galleryImages.forEach(img => {
+        galleryImages.forEach((img, index) => {
             img.addEventListener('click', (e) => {
+                currentImageIndex = index;
                 lightboxImg.src = e.target.src;
                 lightbox.classList.add('active');
                 // Request native fullscreen
@@ -355,6 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const closeLightbox = () => {
             lightbox.classList.remove('active');
+            currentImageIndex = -1;
             if (document.fullscreenElement || document.webkitFullscreenElement) {
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
@@ -364,13 +369,64 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
+        const navigateLightbox = (direction) => {
+            if (currentImageIndex === -1) return;
+            if (direction === 'next') {
+                currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+            } else if (direction === 'prev') {
+                currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+            }
+            lightboxImg.src = galleryImages[currentImageIndex].src;
+        };
+
         // Close on X click
         lightboxClose.addEventListener('click', closeLightbox);
 
-        // Close on clicking outside the image
+        // Navigation buttons click listeners
+        if (lightboxPrev) {
+            lightboxPrev.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navigateLightbox('prev');
+            });
+        }
+        if (lightboxNext) {
+            lightboxNext.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navigateLightbox('next');
+            });
+        }
+
+        // Close on clicking outside the image and navigation buttons
         lightbox.addEventListener('click', (e) => {
-            if (e.target !== lightboxImg) {
+            if (e.target === lightbox) {
                 closeLightbox();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            
+            if (e.key === 'ArrowRight') {
+                navigateLightbox('next');
+            } else if (e.key === 'ArrowLeft') {
+                navigateLightbox('prev');
+            } else if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        // Listen for native fullscreen exit to close lightbox
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement && lightbox.classList.contains('active')) {
+                lightbox.classList.remove('active');
+                currentImageIndex = -1;
+            }
+        });
+        document.addEventListener('webkitfullscreenchange', () => {
+            if (!document.webkitFullscreenElement && lightbox.classList.contains('active')) {
+                lightbox.classList.remove('active');
+                currentImageIndex = -1;
             }
         });
     }

@@ -8,11 +8,11 @@
     <meta name="description"
         content="AccuraOne: Simplifying success, empowering business futures. Specializing in ERP, Accounting, Branding, and Vendor Registration.">
     <link href="https://fonts.cdnfonts.com/css/nexa" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=35">
+    <link rel="stylesheet" href="styles.css?v=36">
     <link rel="stylesheet" href="ScrollVelocity.css?v=10">
     <link rel="stylesheet" href="GlitchText.css?v=10">
     <link rel="stylesheet" href="MagicBento.css">
-    <link rel="stylesheet" href="CircularGallery.css">
+    <link rel="stylesheet" href="OrbitImages.css?v=5">
     <link rel="stylesheet" href="TextType.css">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -55,7 +55,7 @@
     <header id="main-header">
         <div class="container header-container">
             <a href="#" class="logo-link">
-                <img src="main_logo_v2.png" alt="AccuraOne Logo" class="brand-logo">
+                <img src="white_text_logo.png" alt="AccuraOne Logo" class="brand-logo">
             </a>
             <nav class="nav-links">
                 <a href="#home" class="nav-item">Home</a>
@@ -115,7 +115,7 @@
                     style="padding: 40px; padding-bottom: 60px; color: var(--clr-text-main); display: flex; flex-direction: column; gap: 30px; position: relative; border-radius: 8px;">
                     <!-- Logo top left -->
                     <div>
-                        <img src="logo.png" alt="AccuraOne Logo" style="height: 50px;">
+                        <img src="logo_white.png" alt="AccuraOne Logo" style="height: 50px;">
                     </div>
 
                     <!-- Company Overview & Details -->
@@ -352,14 +352,14 @@
                     <h2>Valued <span class="text-gradient">Clients</span></h2>
                     <p>Fostering long-term relationships with industry leaders.</p>
                 </div>
-                <div id="partners-circular-gallery" class="reveal blur-reveal circular-gallery" style="height: 600px; width: 100%; position: relative; margin-top: 40px;">
+                <div id="partners-orbit" class="reveal blur-reveal" style="width: 100%; max-width: 1200px; margin: 50px auto 0; position: relative;">
                 </div>
 
                 <!-- Digital Business Card Representation -->
                 <div class="digital-business-card reveal bottom-reveal magic-bento-card" style="max-width: 800px; margin: 80px auto 0; border-radius: 15px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.15); border: 1px solid rgba(0,0,0,0.05);">
                     <!-- Front of Card -->
                     <div class="card-front" style="background: transparent; padding: 50px 30px; text-align: center; position: relative; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                        <img src="logo.png" alt="AccuraOne Logo" style="height: 70px; margin-bottom: 40px; position: relative; z-index: 2;">
+                        <img src="logo_white.png" alt="AccuraOne Logo" style="height: 70px; margin-bottom: 40px; position: relative; z-index: 2;">
                         <div class="card-services-flex" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; position: relative; z-index: 2;">
                             <div style="width: 100px;">
                                 <i class="fas fa-user-tie" style="font-size: 2.5rem; color: var(--clr-magenta); margin-bottom: 15px;"></i>
@@ -394,7 +394,7 @@
                             <h2 style="font-size: 1.8rem; margin: 0; color: white; font-weight: 800;">Shafaf <span style="font-weight: 400;">Patterkadavan</span></h2>
                             <p style="font-size: 1.1rem; color: #e0e0e0; margin: 0;">Sales&Marketingcoordinator</p>
                         </div>
-                        <img src="logo.png" alt="AccuraOne Logo" style="height: 50px;">
+                        <img src="logo_white.png" alt="AccuraOne Logo" style="height: 50px;">
                     </div>
                     
                     <div class="card-back-details" style="background: transparent; color: white; padding: 40px 50px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 30px;">
@@ -452,13 +452,15 @@
     <!-- Lightbox Modal -->
     <div id="lightbox" class="lightbox">
         <span class="lightbox-close">&times;</span>
+        <div class="lightbox-prev" id="lightbox-prev"><i class="fas fa-chevron-left"></i></div>
         <img class="lightbox-img" id="lightbox-img" src="" alt="Enlarged Image">
+        <div class="lightbox-next" id="lightbox-next"><i class="fas fa-chevron-right"></i></div>
     </div>
 
     <footer>
         <div class="container footer-content">
             <div class="logo-link">
-                <img src="main_logo_v2.png" alt="AccuraOne Logo" class="brand-logo" style="height: 40px;">
+                <img src="white_text_logo.png" alt="AccuraOne Logo" class="brand-logo" style="height: 40px;">
             </div>
             <div class="footer-links">
                 <a href="#home">Home</a>
@@ -479,12 +481,12 @@
     <script src="Orb.js"></script>
     <script src="MagicBento.js"></script>
     <script src="SplashCursor.js"></script>
-    <script src="CircularGallery.js"></script>
+    <script src="OrbitImages.js?v=5"></script>
     <script src="ParticleTextEffect.js"></script>
     <script src="TextType.js"></script>
     <script src="LogoParticleEffect.js?v=4"></script>
     <script src="ScrollVelocity.js?v=10"></script>
-    <script src="script.js?v=20"></script>
+    <script src="script.js?v=21"></script>
     <script>
         // Custom SplitText animation helper matching React Bits SplitText component logic
         function animateSplitText(element, options = {}) {
@@ -720,19 +722,27 @@
                 });
             }
 
-            // Initialize CircularGallery
-            const galleryContainer = document.getElementById('partners-circular-gallery');
-            if (galleryContainer) {
-                const partnerLogos = Array.from({length: 12}, (_, i) => ({
-                    image: `extracted_logos/logo_${i + 1}.png`,
-                    text: ''
-                }));
-                new CircularGalleryApp(galleryContainer, {
-                    items: partnerLogos,
-                    bend: 3,
-                    textColor: '#ffffff',
-                    borderRadius: 0.05,
-                    scrollEase: 0.02
+            // Initialize OrbitImages for Client Logos
+            const orbitContainer = document.getElementById('partners-orbit');
+            if (orbitContainer) {
+                const partnerLogos = Array.from({length: 12}, (_, i) => `extracted_logos/logo_${i + 1}.png`);
+                
+                new OrbitImages(orbitContainer, {
+                    images: partnerLogos,
+                    shape: 'ellipse',
+                    radiusX: 580,
+                    radiusY: 260,
+                    rotation: -8,
+                    duration: 30,
+                    itemSize: 170,
+                    responsive: true,
+                    height: 700,
+                    centerContent: `
+                        <div class="orbit-center-content-inner">
+                            <img src="logo_icon_white.png" alt="AccuraOne" class="orbit-center-logo">
+                            <span class="orbit-center-text">Clients</span>
+                        </div>
+                    `
                 });
             }
 
