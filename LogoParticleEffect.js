@@ -24,9 +24,14 @@ class LogoParticle {
   move(mx, my, isHovered, isScattered, forceRadius = 140, strength = 1.2, canvasWidth = 0, canvasHeight = 0) {
     // Determine active speed and force based on state
     const activeScattered = isScattered || isHovered;
-    const maxSpeed = activeScattered ? 4.5 : 8.5;
-    const maxForce = activeScattered ? 0.20 : 0.60;
-    const closeEnoughTarget = activeScattered ? 60 : 25;
+    
+    // Scale speed and force based on randomized particle parameters for dynamic flow
+    const baseSpeed = this.maxSpeed || 8.5;
+    const baseForce = this.maxForce || 0.60;
+    
+    const maxSpeed = activeScattered ? baseSpeed * 0.6 : baseSpeed * 1.5;
+    const maxForce = activeScattered ? baseForce * 0.5 : baseForce * 2.0;
+    const closeEnoughTarget = activeScattered ? 60 : 15;
 
     // 1. Calculate steer force towards active target
     let proximityMult = 1;
@@ -95,8 +100,8 @@ class LogoParticle {
     this.vel.x += this.acc.x;
     this.vel.y += this.acc.y;
 
-    // Apply damping: high friction (0.93) for smooth flow, snap-back damping (0.78) when forming logo
-    const damping = activeScattered ? 0.93 : 0.78;
+    // Apply damping: high friction (0.93) for smooth flow, snap-back damping (0.84) when forming logo
+    const damping = activeScattered ? 0.93 : 0.84;
     this.vel.x *= damping;
     this.vel.y *= damping;
 
@@ -234,9 +239,9 @@ class LogoParticleEffectApp {
     let particleIndex = 0;
     const coordsIndexes = [];
 
-    // Dense step configuration using a symmetric 2D grid sampler
+    // Optimize step configurations for optimal frame rate and crisp resolution
     const isMobile = this.isMobileViewport;
-    const step = isMobile ? 6 : 3; 
+    const step = isMobile ? 8 : 4; 
 
     for (let y = 0; y < this.img.height; y += step) {
       for (let x = 0; x < this.img.width; x += step) {
