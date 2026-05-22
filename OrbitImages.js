@@ -86,6 +86,8 @@ class OrbitImages {
       rotation: -8,
       duration: 40,
       itemSize: 64,
+      itemWidth: undefined,
+      itemHeight: undefined,
       direction: 'normal',
       fill: true,
       width: '100%',
@@ -204,11 +206,13 @@ class OrbitImages {
 
     // Orbiting Items
     this.itemsElements = [];
+    const itemWidth = this.options.itemWidth || this.options.itemSize;
+    const itemHeight = this.options.itemHeight || this.options.itemSize;
     this.options.images.forEach((src, index) => {
       const itemEl = document.createElement('div');
       itemEl.className = 'orbit-item';
-      itemEl.style.width = `${this.options.itemSize}px`;
-      itemEl.style.height = `${this.options.itemSize}px`;
+      itemEl.style.width = `${itemWidth}px`;
+      itemEl.style.height = `${itemHeight}px`;
       itemEl.style.offsetPath = `path("${this.pathString}")`;
       itemEl.style.offsetRotate = '0deg';
       itemEl.style.offsetAnchor = 'center center';

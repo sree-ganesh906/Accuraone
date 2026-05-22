@@ -400,12 +400,12 @@ header.scrolled .nav-item::after {
 }
 
 .orb-container {
-    transform: translate(1vw, 6vh);
+    transform: translate(-4.98vh, 1.61vh);
 }
 
-@media (min-width: 768px) {
+@media (min-aspect-ratio: 1/1) {
     .orb-container {
-        transform: translate(2vw, 10vh);
+        transform: translate(-4.98vw, 1.61vw);
     }
 }
 
@@ -1285,16 +1285,19 @@ section {
     pointer-events: all;
 }
 
-.lightbox-img {
+.lightbox-img,
+.lightbox-video {
     max-width: 90%;
     max-height: 90%;
     border-radius: 10px;
     box-shadow: 0 0 50px rgba(145, 75, 199, 0.5);
     transform: scale(0.8);
     transition: transform 0.4s ease;
+    outline: none;
 }
 
-.lightbox.active .lightbox-img {
+.lightbox.active .lightbox-img,
+.lightbox.active .lightbox-video {
     transform: scale(1);
 }
 
@@ -1370,7 +1373,8 @@ section {
     }
 }
 
-.image-item img {
+.image-item img,
+.video-item video {
     cursor: zoom-in;
 }
 
