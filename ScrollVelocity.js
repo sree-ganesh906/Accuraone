@@ -18,8 +18,6 @@ function initScrollVelocity(containerId, text, baseVelocity = 100) {
         }
         
         const span = document.createElement('span');
-        span.className = 'glitch';
-        span.setAttribute('data-text', text);
         span.textContent = text;
         item.appendChild(span);
         

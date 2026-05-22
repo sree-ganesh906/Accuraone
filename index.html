@@ -9,8 +9,8 @@
         content="AccuraOne: Simplifying success, empowering business futures. Specializing in ERP, Accounting, Branding, and Vendor Registration.">
     <link href="https://fonts.cdnfonts.com/css/nexa" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=23">
-    <link rel="stylesheet" href="ScrollVelocity.css?v=2">
-    <link rel="stylesheet" href="GlitchText.css">
+    <link rel="stylesheet" href="ScrollVelocity.css?v=3">
+    <link rel="stylesheet" href="GlitchText.css?v=2">
     <link rel="stylesheet" href="MagicBento.css">
     <link rel="stylesheet" href="CircularGallery.css">
     <link rel="stylesheet" href="TextType.css">
@@ -19,6 +19,9 @@
     <style>
         .nav-item { color: #fff !important; }
         .menu-toggle i { color: #fff !important; }
+        .scroller, .scroller span {
+            font-family: var(--font-heading) !important;
+        }
         .left-hero-logo {
             position: relative;
             transform: translateY(0);
@@ -96,7 +99,7 @@
             <div class="container hero-content" style="height: 100%; display: flex; align-items: center; justify-content: flex-start;">
                 <div class="hero-sidebar reveal blur-reveal" style="display: flex; flex-direction: column; align-items: flex-start; justify-content: center; max-width: 550px; z-index: 20; position: relative;">
                     <!-- Welcome Description (Placed at the top) -->
-                    <p class="hero-subtext glitch" data-text="Welcome to the future of consultancy, where precision meets excellence." style="margin-top: 0; margin-bottom: 30px; line-height: 1.6; font-family: var(--font-body); text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+                    <p class="hero-subtext" style="margin-top: 0; margin-bottom: 30px; line-height: 1.6; font-family: var(--font-heading); text-shadow: 0 2px 4px rgba(0,0,0,0.5); color: #ffffff;">
                         Welcome to the future of consultancy, where precision meets excellence.
                     </p>
 
@@ -480,7 +483,7 @@
     <script src="ParticleTextEffect.js"></script>
     <script src="TextType.js"></script>
     <script src="LogoParticleEffect.js"></script>
-    <script src="ScrollVelocity.js"></script>
+    <script src="ScrollVelocity.js?v=2"></script>
     <script src="script.js?v=13"></script>
     <script>
         // Custom SplitText animation helper matching React Bits SplitText component logic
