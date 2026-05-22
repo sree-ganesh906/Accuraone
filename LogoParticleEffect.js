@@ -201,6 +201,7 @@ class LogoParticleEffectApp {
     this.stateTimer = 0;
     this.currentAnimState = "scattered";
     
+    this.isMobileViewport = window.innerWidth <= 768;
     this.init();
   }
 
@@ -233,11 +234,20 @@ class LogoParticleEffectApp {
     let particleIndex = 0;
     const coordsIndexes = [];
 
-    // Dense step configuration
-    const step = 4; 
+    // Dense step configuration using a symmetric 2D grid sampler
+    const isMobile = this.isMobileViewport;
+    const step = isMobile ? 6 : 3; 
 
-    for (let i = 0; i < pixels.length; i += step * 4) {
-      coordsIndexes.push(i);
+    for (let y = 0; y < this.img.height; y += step) {
+      for (let x = 0; x < this.img.width; x += step) {
+        const pixelIndex = (y * this.img.width + x) * 4;
+        if (pixelIndex < pixels.length) {
+          const alpha = pixels[pixelIndex + 3];
+          if (alpha > 50) {
+            coordsIndexes.push(pixelIndex);
+          }
+        }
+      }
     }
 
     // Shuffle points for organic loading join effect
@@ -247,49 +257,55 @@ class LogoParticleEffectApp {
     }
 
     for (const pixelIndex of coordsIndexes) {
-      const alpha = pixels[pixelIndex + 3];
-      if (alpha > 50) { 
-        const x = (pixelIndex / 4) % this.img.width;
-        const y = Math.floor((pixelIndex / 4) / this.img.width);
+      const x = (pixelIndex / 4) % this.img.width;
+      const y = Math.floor((pixelIndex / 4) / this.img.width);
 
-        let particle;
-        if (particleIndex < this.particles.length) {
-          particle = this.particles[particleIndex];
-          particle.isKilled = false;
-          particleIndex++;
-        } else {
-          particle = new LogoParticle();
-          this.particles.push(particle);
-        }
-
-        particle.maxSpeed = Math.random() * 4 + 7.5; // snappier: 7.5 to 11.5
-        particle.maxForce = particle.maxSpeed * 0.06; // stronger steering force: 0.45 to 0.69
-        particle.particleSize = Math.random() * 1.3 + 1.1; // sleek, high-definition stars
-        particle.colorBlendRate = Math.random() * 0.0275 + 0.0025;
-        particle.scatterAngle = Math.random() * Math.PI * 2;
-        particle.scatterDistance = 40 + Math.random() * 50;
-
-        // Keep original image coordinate markers
-        particle.imgX = x;
-        particle.imgY = y;
-        
-        particle.startColor = {
-          r: pixels[pixelIndex],
-          g: pixels[pixelIndex+1],
-          b: pixels[pixelIndex+2]
-        };
-        particle.targetColor = {
-          r: pixels[pixelIndex],
-          g: pixels[pixelIndex+1],
-          b: pixels[pixelIndex+2]
-        };
-        particle.colorWeight = 0;
+      let particle;
+      if (particleIndex < this.particles.length) {
+        particle = this.particles[particleIndex];
+        particle.isKilled = false;
+      } else {
+        particle = new LogoParticle();
+        this.particles.push(particle);
       }
+      particleIndex++;
+
+      particle.maxSpeed = Math.random() * 4 + 7.5; // snappier: 7.5 to 11.5
+      particle.maxForce = particle.maxSpeed * 0.06; // stronger steering force: 0.45 to 0.69
+      
+      if (isMobile) {
+        particle.particleSize = Math.random() * 0.5 + 0.5; // smaller, sharp particles on mobile: 0.5 to 1.0
+      } else {
+        particle.particleSize = Math.random() * 1.3 + 1.1; // sleek, high-definition stars
+      }
+      
+      particle.colorBlendRate = Math.random() * 0.0275 + 0.0025;
+      particle.scatterAngle = Math.random() * Math.PI * 2;
+      particle.scatterDistance = 40 + Math.random() * 50;
+
+      // Keep original image coordinate markers
+      particle.imgX = x;
+      particle.imgY = y;
+      
+      particle.startColor = {
+        r: pixels[pixelIndex],
+        g: pixels[pixelIndex+1],
+        b: pixels[pixelIndex+2]
+      };
+      particle.targetColor = {
+        r: pixels[pixelIndex],
+        g: pixels[pixelIndex+1],
+        b: pixels[pixelIndex+2]
+      };
+      particle.colorWeight = 0;
     }
 
     for (let i = particleIndex; i < this.particles.length; i++) {
       this.particles[i].kill(this.canvas.width, this.canvas.height);
     }
+    
+    // Crop the particles array to free memory and avoid rendering deactivated/killed particles
+    this.particles.length = particleIndex;
 
     this.updateTargetPositions();
 
@@ -456,7 +472,16 @@ class LogoParticleEffectApp {
     if (!this.container || !this.canvas) return;
     this.canvas.width = this.container.clientWidth;
     this.canvas.height = this.container.clientHeight;
-    this.updateTargetPositions();
+    
+    const wasMobile = this.isMobileViewport;
+    const isMobileNow = window.innerWidth <= 768;
+    
+    if (wasMobile !== isMobileNow) {
+      this.isMobileViewport = isMobileNow;
+      this.startEffect();
+    } else {
+      this.updateTargetPositions();
+    }
   };
 }
 

@@ -88,9 +88,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. Scroll Reveal Animations (Intersection Observer)
     const revealElements = document.querySelectorAll('.reveal');
     
+    // Failsafe: force active class on all reveal elements on mobile/tablet viewports to ensure they are visible
+    if (window.innerWidth <= 1024) {
+        revealElements.forEach(el => {
+            el.classList.add('active');
+        });
+    }
+    
     const revealOptions = {
-        threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px"
+        threshold: 0.05,
+        rootMargin: "0px 0px -20px 0px"
     };
 
     const revealOnScroll = new IntersectionObserver(function(entries, observer) {

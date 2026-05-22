@@ -73,3 +73,9 @@
     top: 88px;
   }
 }
+
+@media (max-width: 768px) {
+  .scroll-velocity-banner {
+    top: 66px !important;
+  }
+}
