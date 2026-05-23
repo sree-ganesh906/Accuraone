@@ -845,4 +845,99 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // 14. CEO Photo Click Glow & Color-Transition Animation
+    const ceoPhoto = document.getElementById('ceo-photo');
+    if (ceoPhoto) {
+        const wrapper = ceoPhoto.closest('.ceo-wrapper');
+        const h4 = wrapper ? wrapper.querySelector('.ceo-photo-container h4') : null;
+        const span = wrapper ? wrapper.querySelector('.ceo-photo-container span') : null;
+        const p = wrapper ? wrapper.querySelector('.ceo-text-container p') : null;
+        
+        ceoPhoto.addEventListener('click', () => {
+            if (h4) splitText(h4);
+            if (span) splitText(span);
+            if (p) splitText(p);
+            
+            const isGlowing = ceoPhoto.classList.contains('active-glow');
+            const chars = wrapper ? wrapper.querySelectorAll('.glow-char') : [];
+            
+            if (!isGlowing) {
+                ceoPhoto.classList.add('active-glow');
+                
+                // Animate CEO photo itself to have a nice purple/violet shadow glow
+                gsap.to(ceoPhoto, {
+                    boxShadow: '0 0 35px rgba(145, 75, 199, 0.9), 0 0 15px rgba(145, 75, 199, 0.4)',
+                    scale: 1.05,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                });
+                
+                // Staggered animation of characters turning glowing purple
+                gsap.killTweensOf(chars);
+                gsap.fromTo(chars, 
+                    {
+                        color: (index, target) => {
+                            return target.closest('span') ? '#e0e0e0' : '#ffffff';
+                        },
+                        textShadow: 'none'
+                    },
+                    {
+                        color: '#d8b4fe',
+                        textShadow: '0 0 8px rgba(145, 75, 199, 0.8), 0 0 15px rgba(100, 2, 177, 0.6)',
+                        duration: 0.8,
+                        stagger: 0.008, // Faster stagger since paragraph text is longer
+                        ease: 'power2.out'
+                    }
+                );
+            } else {
+                ceoPhoto.classList.remove('active-glow');
+                
+                // Animate CEO photo back to normal
+                gsap.to(ceoPhoto, {
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+                    scale: 1.0,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                });
+                
+                // Reset characters back to their original state
+                gsap.killTweensOf(chars);
+                
+                const h4Chars = wrapper ? wrapper.querySelectorAll('h4 .glow-char') : [];
+                const spanChars = wrapper ? wrapper.querySelectorAll('span .glow-char') : [];
+                const pChars = wrapper ? wrapper.querySelectorAll('p .glow-char') : [];
+                
+                if (h4Chars.length > 0) {
+                    gsap.to(h4Chars, {
+                        color: '#ffffff',
+                        textShadow: 'none',
+                        duration: 0.4,
+                        stagger: 0.003,
+                        ease: 'power2.out'
+                    });
+                }
+                
+                if (spanChars.length > 0) {
+                    gsap.to(spanChars, {
+                        color: '#e0e0e0',
+                        textShadow: 'none',
+                        duration: 0.4,
+                        stagger: 0.003,
+                        ease: 'power2.out'
+                    });
+                }
+                
+                if (pChars.length > 0) {
+                    gsap.to(pChars, {
+                        color: '#ffffff',
+                        textShadow: 'none',
+                        duration: 0.4,
+                        stagger: 0.003,
+                        ease: 'power2.out'
+                    });
+                }
+            }
+        });
+    }
 });
