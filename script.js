@@ -705,4 +705,144 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     initLightningBackground();
+
+    // 13. Service Card Click Glow & Color-Transition Animation
+    const splitText = (el) => {
+        if (!el || el.querySelector('.glow-char')) return;
+        const text = el.textContent.trim().replace(/\s+/g, ' ');
+        el.innerHTML = '';
+        
+        // Split by whitespace to keep words together so they wrap properly
+        const parts = text.split(/(\s+)/);
+        
+        parts.forEach(part => {
+            if (part.trim() === '') {
+                // It's whitespace, wrap it in a space span
+                const spaceSpan = document.createElement('span');
+                spaceSpan.className = 'glow-space';
+                spaceSpan.innerHTML = part.replace(/ /g, '&nbsp;');
+                el.appendChild(spaceSpan);
+            } else {
+                // It's a word, wrap each character inside a word span
+                const wordSpan = document.createElement('span');
+                wordSpan.className = 'glow-word';
+                wordSpan.style.display = 'inline-block';
+                wordSpan.style.whiteSpace = 'nowrap';
+                
+                for (let i = 0; i < part.length; i++) {
+                    const char = part[i];
+                    const charSpan = document.createElement('span');
+                    charSpan.className = 'glow-char';
+                    charSpan.style.display = 'inline-block';
+                    charSpan.textContent = char;
+                    wordSpan.appendChild(charSpan);
+                }
+                el.appendChild(wordSpan);
+            }
+        });
+    };
+
+    const serviceCards = document.querySelectorAll('.service-card');
+    serviceCards.forEach(card => {
+        const h3 = card.querySelector('h3');
+        const p = card.querySelector('p');
+        const icon = card.querySelector('.service-icon');
+        
+        card.addEventListener('click', () => {
+            // Split text on first click
+            if (h3) splitText(h3);
+            if (p) splitText(p);
+            
+            const isGlowing = card.classList.contains('active-glow');
+            const chars = card.querySelectorAll('.glow-char');
+            
+            if (!isGlowing) {
+                card.classList.add('active-glow');
+                
+                // Animate card container to active glowing state
+                gsap.to(card, {
+                    borderColor: 'rgba(145, 75, 199, 0.8)',
+                    boxShadow: '0 0 30px rgba(145, 75, 199, 0.5), 0 0 15px rgba(145, 75, 199, 0.25) inset',
+                    y: -15,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                });
+                
+                // Make the icon pulse/glow stronger
+                if (icon) {
+                    gsap.to(icon, {
+                        scale: 1.15,
+                        filter: 'drop-shadow(0 0 25px #DC0BAA) drop-shadow(0 0 50px #6402B1)',
+                        duration: 0.5,
+                        ease: 'power2.out'
+                    });
+                }
+                
+                // Staggered animation of characters turning glowing purple
+                gsap.killTweensOf(chars);
+                gsap.fromTo(chars, 
+                    {
+                        color: (index, target) => {
+                            return target.closest('h3') ? '#ffffff' : '#b0a8ba';
+                        },
+                        textShadow: 'none'
+                    },
+                    {
+                        color: '#d8b4fe', // Light violet/purple text color
+                        textShadow: '0 0 8px rgba(145, 75, 199, 0.8), 0 0 15px rgba(100, 2, 177, 0.6)',
+                        duration: 0.8,
+                        stagger: 0.015, // Smooth flow character-by-character
+                        ease: 'power2.out'
+                    }
+                );
+            } else {
+                card.classList.remove('active-glow');
+                
+                // Animate card container back to normal
+                gsap.to(card, {
+                    borderColor: 'rgba(255, 255, 255, 0.15)',
+                    boxShadow: 'none',
+                    y: 0,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                });
+                
+                // Reset icon
+                if (icon) {
+                    gsap.to(icon, {
+                        scale: 1.0,
+                        filter: 'drop-shadow(0 0 10px var(--clr-magenta))',
+                        duration: 0.5,
+                        ease: 'power2.out'
+                    });
+                }
+                
+                // Reset characters back to their original state
+                gsap.killTweensOf(chars);
+                
+                const h3Chars = card.querySelectorAll('h3 .glow-char');
+                const pChars = card.querySelectorAll('p .glow-char');
+                
+                if (h3Chars.length > 0) {
+                    gsap.to(h3Chars, {
+                        color: '#ffffff',
+                        textShadow: 'none',
+                        duration: 0.4,
+                        stagger: 0.005,
+                        ease: 'power2.out'
+                    });
+                }
+                
+                if (pChars.length > 0) {
+                    gsap.to(pChars, {
+                        color: '#b0a8ba',
+                        textShadow: 'none',
+                        duration: 0.4,
+                        stagger: 0.005,
+                        ease: 'power2.out'
+                    });
+                }
+            }
+        });
+    });
 });

@@ -673,7 +673,7 @@ header.scrolled .nav-item::after {
     padding: 40px 30px;
     text-align: left;
     transition: transform 0.4s var(--ease-smooth), box-shadow 0.4s ease;
-    cursor: default;
+    cursor: pointer;
 }
 
 .service-card:hover {
