@@ -1068,13 +1068,13 @@ footer {
     /* Keep hero sidebar intact and center it responsively on mobile views */
     .hero {
         padding-top: 100px;
-        padding-bottom: 20px;
+        padding-bottom: 45px;
     }
 
     .hero-content {
-        min-height: calc(100vh - 135px);
+        min-height: calc(100vh - 185px);
         align-items: flex-end;
-        padding-bottom: 15px;
+        padding-bottom: 40px;
     }
 
     .hero-sidebar {
