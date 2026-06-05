@@ -218,6 +218,7 @@ class OrbitImages {
       itemEl.style.offsetAnchor = 'center center';
       
       const innerRotator = document.createElement('div');
+      innerRotator.className = 'orbit-item-inner';
       innerRotator.style.transform = `rotate(${-this.options.rotation}deg)`;
       innerRotator.style.width = '100%';
       innerRotator.style.height = '100%';

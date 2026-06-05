@@ -1,5 +1,10 @@
-import { ParticleTextEffect } from "@/components/ui/particle-text-effect"
+// This is file with demos of your component
+// Each export is one usecase for your component
 
-export default function DemoOne() {
-  return <ParticleTextEffect />
-}
+import { Component } from "@/components/ui/image-auto-slider";
+
+const DemoOne = () => {
+  return <Component />;
+};
+
+export { DemoOne };
