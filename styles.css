@@ -1073,23 +1073,30 @@ footer {
 
     .hero-content {
         min-height: calc(100vh - 185px);
-        align-items: flex-end;
-        padding-bottom: 40px;
+        align-items: stretch !important;
+        padding-bottom: 20px !important;
     }
 
     .hero-sidebar {
         max-width: 100%;
         width: 100%;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        align-items: center !important;
     }
     
     .left-hero-logo {
         width: min(190px, 55vw);
+        margin: 0 auto !important;
+        margin-bottom: 20px !important;
     }
 
     .hero-subtext {
         font-size: clamp(1.1rem, 4.5vw, 1.3rem);
         padding: 0 15px;
-        margin-bottom: 45px;
+        margin-top: 15px !important;
+        margin-bottom: 0 !important;
     }
 
     /* Vision & Mission boxes stack vertically */
