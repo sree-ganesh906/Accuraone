@@ -240,8 +240,7 @@ class LogoParticleEffectApp {
     const coordsIndexes = [];
 
     // Optimize step configurations for optimal frame rate and crisp resolution
-    const isMobile = this.isMobileViewport;
-    const step = isMobile ? 8 : 4; 
+    const step = 4; 
 
     for (let y = 0; y < this.img.height; y += step) {
       for (let x = 0; x < this.img.width; x += step) {
@@ -278,11 +277,7 @@ class LogoParticleEffectApp {
       particle.maxSpeed = Math.random() * 4 + 7.5; // snappier: 7.5 to 11.5
       particle.maxForce = particle.maxSpeed * 0.06; // stronger steering force: 0.45 to 0.69
       
-      if (isMobile) {
-        particle.particleSize = Math.random() * 0.5 + 0.5; // smaller, sharp particles on mobile: 0.5 to 1.0
-      } else {
-        particle.particleSize = Math.random() * 1.3 + 1.1; // sleek, high-definition stars
-      }
+      particle.particleSize = Math.random() * 1.3 + 1.1; // sleek, high-definition stars
       
       particle.colorBlendRate = Math.random() * 0.0275 + 0.0025;
       particle.scatterAngle = Math.random() * Math.PI * 2;

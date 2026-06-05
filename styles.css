@@ -995,7 +995,6 @@ footer {
     transform: scale(0.9);
 }
 
-/* Responsive */
 @media (max-width: 1199px) {
     .hero-content {
         justify-content: center;
@@ -1014,6 +1013,9 @@ footer {
     .left-hero-logo {
         margin: 0 auto;
         width: min(300px, 60vw);
+    }
+    #orb-container.orb-container {
+        height: 65vh !important;
     }
 }
 
@@ -1069,13 +1071,13 @@ footer {
     /* Keep hero sidebar intact and center it responsively on mobile views */
     .hero {
         padding-top: 100px;
-        padding-bottom: 50px;
+        padding-bottom: 30px;
     }
 
     .hero-content {
-        min-height: calc(100vh - 150px);
+        min-height: calc(100vh - 130px);
         align-items: flex-end;
-        padding-bottom: 30px;
+        padding-bottom: 15px;
     }
 
     .hero-sidebar {
@@ -1090,6 +1092,11 @@ footer {
     .hero-subtext {
         font-size: clamp(1.1rem, 4.5vw, 1.3rem);
         padding: 0 15px;
+        margin-bottom: 85px;
+    }
+    
+    #orb-container.orb-container {
+        height: 55vh !important;
     }
 
     /* Vision & Mission boxes stack vertically */
