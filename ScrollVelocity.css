@@ -59,7 +59,7 @@
   border: none;
   padding: 12px 0;
   position: absolute;
-  top: 90px; /* Right below the default header */
+  top: 60px; /* Shifted even higher */
   left: 0;
   z-index: 999; /* Above the central animations, below header */
   overflow: hidden;
@@ -70,12 +70,12 @@
     font-size: 2.8rem;
   }
   .scroll-velocity-banner {
-    top: 88px;
+    top: 60px;
   }
 }
 
 @media (max-width: 768px) {
   .scroll-velocity-banner {
-    top: 66px !important;
+    top: 48px !important;
   }
 }
