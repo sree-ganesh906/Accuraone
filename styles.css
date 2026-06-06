@@ -1087,7 +1087,7 @@ footer {
     }
     
     .left-hero-logo {
-        width: min(190px, 55vw);
+        width: min(290px, 75vw);
         margin: 0 auto !important;
         margin-bottom: 20px !important;
     }
@@ -1598,14 +1598,16 @@ section {
     background-color: var(--clr-glass);
     color: white;
     border-radius: 20px;
-    padding: 40px 30px 30px;
+    padding: 40px;
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 40px;
+    max-width: 850px;
+    width: 100%;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    border: 1.5px solid var(--clr-glass-border);
     overflow: visible !important;
-    box-shadow: none;
-    border: 1px solid var(--clr-glass-border);
 }
 
 .cert-badge {
@@ -1641,7 +1643,7 @@ section {
     font-size: 1.1rem;
     margin: 0;
     line-height: 1.6;
-    color: var(--clr-text-muted);
+    color: #ffffff;
     font-weight: 500;
 }
 
@@ -1794,7 +1796,7 @@ section {
 .vendor-text-wrapper p {
     font-size: 1.05rem;
     line-height: 1.6;
-    color: var(--clr-text-muted);
+    color: #ffffff;
     font-weight: 500;
     margin: 0;
 }

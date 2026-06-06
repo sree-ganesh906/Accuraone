@@ -164,11 +164,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 8. Contact Form Handling (Prevent default so it feels like a modern app)
+    // 8. Contact Form Handling (Submit to WhatsApp + custom animations)
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const msg = document.getElementById('message').value;
+            
+            const whatsappText = `Hello AccuraOne,
+
+I would like to contact you regarding the following:
+*Name:* ${name}
+*Email:* ${email}
+*Project Requirements:* ${msg}`;
+
+            const encodedText = encodeURIComponent(whatsappText);
+            const whatsappUrl = `https://wa.me/966540415103?text=${encodedText}`;
+            
+            // Open WhatsApp in a new tab
+            window.open(whatsappUrl, '_blank');
+            
             const btn = contactForm.querySelector('.btn-3d-flip .front');
             const originalText = btn.textContent;
             
@@ -940,4 +958,110 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // 15. Vendor & Certification Cards Click Glow & Color-Transition Animation
+    const credentialCards = document.querySelectorAll('.vendor-card, .cert-card');
+    credentialCards.forEach(card => {
+        const isVendor = card.classList.contains('vendor-card');
+        const header = isVendor ? card.querySelector('.vendor-text-wrapper h3') : card.querySelector('.bento-card-text h4');
+        const p = isVendor ? card.querySelector('.vendor-text-wrapper p') : card.querySelector('.bento-card-text p');
+        const badge = isVendor ? card.querySelector('.vendor-badge') : card.querySelector('.cert-badge');
+        
+        // Add cursor pointer style
+        card.style.cursor = 'pointer';
+        
+        card.addEventListener('click', () => {
+            // Split text on first click
+            if (header) splitText(header);
+            if (p) splitText(p);
+            
+            const isGlowing = card.classList.contains('active-glow');
+            const chars = card.querySelectorAll('.glow-char');
+            
+            if (!isGlowing) {
+                card.classList.add('active-glow');
+                
+                // Animate card container to active glowing state (blue glow)
+                gsap.to(card, {
+                    borderColor: 'rgba(142, 208, 235, 0.8)',
+                    boxShadow: '0 0 35px rgba(142, 208, 235, 0.6), 0 0 15px rgba(142, 208, 235, 0.25) inset',
+                    duration: 0.5,
+                    ease: 'power2.out'
+                });
+                
+                if (badge) {
+                    gsap.to(badge, {
+                        boxShadow: '0 0 20px rgba(142, 208, 235, 0.7)',
+                        duration: 0.5,
+                        ease: 'power2.out'
+                    });
+                }
+                
+                // Staggered animation of characters turning glowing blue
+                gsap.killTweensOf(chars);
+                gsap.fromTo(chars, 
+                    {
+                        color: (index, target) => {
+                            if (target.closest('h3') || target.closest('h4')) {
+                                return '#8ED0EB';
+                            }
+                            return '#ffffff';
+                        },
+                        textShadow: 'none'
+                    },
+                    {
+                        color: '#8ED0EB', // Exact blue header color
+                        textShadow: '0 0 8px rgba(142, 208, 235, 0.8), 0 0 15px rgba(142, 208, 235, 0.5)',
+                        duration: 0.8,
+                        stagger: 0.012,
+                        ease: 'power2.out'
+                    }
+                );
+            } else {
+                card.classList.remove('active-glow');
+                
+                // Animate card container back to normal
+                gsap.to(card, {
+                    borderColor: 'var(--clr-glass-border)',
+                    boxShadow: '0 15px 35px rgba(0,0,0,0.3)',
+                    duration: 0.5,
+                    ease: 'power2.out'
+                });
+                
+                if (badge) {
+                    gsap.to(badge, {
+                        boxShadow: 'none',
+                        duration: 0.5,
+                        ease: 'power2.out'
+                    });
+                }
+                
+                // Reset characters back to their original state
+                gsap.killTweensOf(chars);
+                
+                const headerChars = card.querySelectorAll('h3 .glow-char, h4 .glow-char');
+                const pChars = card.querySelectorAll('p .glow-char');
+                
+                if (headerChars.length > 0) {
+                    gsap.to(headerChars, {
+                        color: '#8ED0EB',
+                        textShadow: 'none',
+                        duration: 0.4,
+                        stagger: 0.005,
+                        ease: 'power2.out'
+                    });
+                }
+                
+                if (pChars.length > 0) {
+                    gsap.to(pChars, {
+                        color: '#ffffff',
+                        textShadow: 'none',
+                        duration: 0.4,
+                        stagger: 0.005,
+                        ease: 'power2.out'
+                    });
+                }
+            }
+        });
+    });
 });

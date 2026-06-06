@@ -240,7 +240,7 @@ class LogoParticleEffectApp {
     const coordsIndexes = [];
 
     // Optimize step configurations for optimal frame rate and crisp resolution
-    const step = 4; 
+    const step = this.isMobileViewport ? 2 : 4; 
 
     for (let y = 0; y < this.img.height; y += step) {
       for (let x = 0; x < this.img.width; x += step) {
