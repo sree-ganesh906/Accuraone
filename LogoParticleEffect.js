@@ -21,7 +21,7 @@ class LogoParticle {
     this.scatterDistance = 40 + Math.random() * 50; // tight nearby distance
   }
 
-  move(mx, my, isHovered, isScattered, forceRadius = 140, strength = 1.2, canvasWidth = 0, canvasHeight = 0) {
+  move(mx, my, isHovered, isScattered, forceRadius = 140, strength = 1.2, canvasWidth = 0, canvasHeight = 0, screenBounds = null) {
     // Determine active speed and force based on state
     const activeScattered = isScattered || isHovered;
     
@@ -112,7 +112,11 @@ class LogoParticle {
     // Clamp displacement to keep particles within a tight nearby logo area when activeScattered
     if (activeScattered) {
       const distFromHome = Math.sqrt(Math.pow(this.pos.x - this.target.x, 2) + Math.pow(this.pos.y - this.target.y, 2));
-      const maxDisplacement = isHovered ? 120 : 60;
+      
+      // Scale max displacement with screen width (default to 225px if screenBounds is missing)
+      const screenW = screenBounds ? screenBounds.w : 225;
+      const maxDisplacement = isHovered ? (screenW * 0.22) : (screenW * 0.12);
+      
       if (distFromHome > maxDisplacement && distFromHome > 0) {
         const homeDX = this.target.x - this.pos.x;
         const homeDY = this.target.y - this.pos.y;
@@ -123,23 +127,42 @@ class LogoParticle {
       }
     }
 
-    // Boundary containment (bounce particles if they reach viewport edges)
-    const pad = 15;
-    if (canvasWidth > 0 && canvasHeight > 0) {
-      if (this.pos.x < pad) {
-        this.pos.x = pad;
-        this.vel.x *= -0.3;
-      } else if (this.pos.x > canvasWidth - pad) {
-        this.pos.x = canvasWidth - pad;
-        this.vel.x *= -0.3;
-      }
+    // Boundary containment (contain particles inside screen quadrilateral bezel)
+    if (screenBounds && screenBounds.tl) {
+      const q = screenBounds;
+      const p = this.pos;
+      const c1 = (q.tr.x - q.tl.x) * (p.y - q.tl.y) - (q.tr.y - q.tl.y) * (p.x - q.tl.x);
+      const c2 = (q.br.x - q.tr.x) * (p.y - q.tr.y) - (q.br.y - q.tr.y) * (p.x - q.tr.x);
+      const c3 = (q.bl.x - q.br.x) * (p.y - q.br.y) - (q.bl.y - q.br.y) * (p.x - q.br.x);
+      const c4 = (q.tl.x - q.bl.x) * (p.y - q.bl.y) - (q.tl.y - q.bl.y) * (p.x - q.bl.x);
       
-      if (this.pos.y < pad) {
-        this.pos.y = pad;
+      const isInside = (c1 >= 0 && c2 >= 0 && c3 >= 0 && c4 >= 0) || (c1 <= 0 && c2 <= 0 && c3 <= 0 && c4 <= 0);
+      if (!isInside) {
+        // Push back towards target inside the screen
+        this.pos.x = this.pos.x * 0.85 + this.target.x * 0.15;
+        this.pos.y = this.pos.y * 0.85 + this.target.y * 0.15;
+        this.vel.x *= -0.3;
         this.vel.y *= -0.3;
-      } else if (this.pos.y > canvasHeight - pad) {
-        this.pos.y = canvasHeight - pad;
-        this.vel.y *= -0.3;
+      }
+    } else {
+      // Fallback containment to viewport edges
+      const pad = 15;
+      if (canvasWidth > 0 && canvasHeight > 0) {
+        if (this.pos.x < pad) {
+          this.pos.x = pad;
+          this.vel.x *= -0.3;
+        } else if (this.pos.x > canvasWidth - pad) {
+          this.pos.x = canvasWidth - pad;
+          this.vel.x *= -0.3;
+        }
+        
+        if (this.pos.y < pad) {
+          this.pos.y = pad;
+          this.vel.y *= -0.3;
+        } else if (this.pos.y > canvasHeight - pad) {
+          this.pos.y = canvasHeight - pad;
+          this.vel.y *= -0.3;
+        }
       }
     }
 
@@ -158,7 +181,7 @@ class LogoParticle {
       b: Math.round(this.startColor.b + (this.targetColor.b - this.startColor.b) * this.colorWeight),
     };
 
-    // Draw high quality circular dot
+    // Draw high quality circular dot for premium, neat, antialiased look
     ctx.fillStyle = `rgb(${currentColor.r}, ${currentColor.g}, ${currentColor.b})`;
     ctx.beginPath();
     ctx.arc(this.pos.x, this.pos.y, this.particleSize, 0, Math.PI * 2);
@@ -198,8 +221,8 @@ class LogoParticleEffectApp {
     this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
     
     this.particles = [];
-    this.mouse = { x: 0, y: 0, isHovered: false };
-    this.pixelSteps = 4;
+    this.mouse = { x: -9999, y: -9999, isHovered: false };
+    this.pixelSteps = 3; // Step 3 balances visual density and performance
     this.tick = 0;
 
     // Timer control logic for auto scattered-to-formed repetition
@@ -207,6 +230,10 @@ class LogoParticleEffectApp {
     this.currentAnimState = "scattered";
     
     this.isMobileViewport = window.innerWidth <= 768;
+    
+    // Maintain computed screen boundaries
+    this.screenBounds = { x: 0, y: 0, w: 0, h: 0 };
+
     this.init();
   }
 
@@ -239,8 +266,8 @@ class LogoParticleEffectApp {
     let particleIndex = 0;
     const coordsIndexes = [];
 
-    // Optimize step configurations for optimal frame rate and crisp resolution
-    const step = this.isMobileViewport ? 2 : 4; 
+    // Use step = 2 on mobile viewport, step = 3 on desktop for optimal density and legibility
+    const step = this.isMobileViewport ? 2 : 3; 
 
     for (let y = 0; y < this.img.height; y += step) {
       for (let x = 0; x < this.img.width; x += step) {
@@ -277,7 +304,7 @@ class LogoParticleEffectApp {
       particle.maxSpeed = Math.random() * 4 + 7.5; // snappier: 7.5 to 11.5
       particle.maxForce = particle.maxSpeed * 0.06; // stronger steering force: 0.45 to 0.69
       
-      particle.particleSize = Math.random() * 1.3 + 1.1; // sleek, high-definition stars
+      particle.particleSize = Math.random() * 1.1 + 0.9; // sleek stars
       
       particle.colorBlendRate = Math.random() * 0.0275 + 0.0025;
       particle.scatterAngle = Math.random() * Math.PI * 2;
@@ -309,7 +336,7 @@ class LogoParticleEffectApp {
 
     this.updateTargetPositions();
 
-    // Position all particles close to their targets initially (nearby space, only dots visible first)
+    // Position all particles close to their targets initially
     this.particles.forEach(p => {
       const angle = Math.random() * Math.PI * 2;
       const distance = 50 + Math.random() * 60; // 50px to 110px nearby offset
@@ -322,59 +349,115 @@ class LogoParticleEffectApp {
 
   updateTargetPositions() {
     if (!this.img || !this.img.complete) return;
-    const placeholder = document.getElementById(this.placeholderId);
-    if (!placeholder) return;
+    
+    const W = this.canvas.width;
+    const H = this.canvas.height;
+    const ImgW = 1024;
+    const ImgH = 1024;
 
-    const pRect = placeholder.getBoundingClientRect();
-    const cRect = this.container.getBoundingClientRect();
+    // Coordinates of the monitor screen display area in the 1024x1024 image
+    const screenImgX = 349;
+    const screenImgY = 454;
+    const screenImgW = 225;
+    const screenImgH = 151;
 
-    const relativeLeft = pRect.left - cRect.left;
-    const relativeTop = pRect.top - cRect.top;
+    let scale, offsetX, offsetY;
+    const R = W / H;
+    const ImgR = ImgW / ImgH; // 1.0
 
-    // Scale aspect ratio matching placeholder width
-    const scale = pRect.width / this.img.width;
+    if (R > ImgR) {
+      // Case 1: Viewport is wider than image (W > H)
+      scale = W / ImgW;
+      offsetX = 0;
+      offsetY = -(W - H) / 2;
+    } else {
+      // Case 2: Viewport is taller than image (W <= H)
+      scale = H / ImgH;
+      offsetX = -(H - W) / 2;
+      offsetY = 0;
+    }
 
-    const offsetX = relativeLeft;
-    const offsetY = relativeTop;
+    const scalePoint = (pt) => {
+      return {
+        x: offsetX + pt.x * scale,
+        y: offsetY + pt.y * scale
+      };
+    };
+
+    // exact corner mappings to skew/tilt the screen boundaries
+    this.screenQuad = {
+      tl: scalePoint({ x: 255, y: 420 }),
+      tr: scalePoint({ x: 595, y: 435 }),
+      bl: scalePoint({ x: 255, y: 648 }),
+      br: scalePoint({ x: 594, y: 600 })
+    };
+
+    // exact corners of the logo within the image to match pre-rendered layout skew
+    this.logoQuad = {
+      tl: scalePoint({ x: 349, y: 454 }),
+      tr: scalePoint({ x: 564, y: 460 }),
+      bl: scalePoint({ x: 382, y: 602 }),
+      br: scalePoint({ x: 573, y: 582 })
+    };
+
+    // Store compatible simple box structure
+    this.screenBounds = {
+      x: offsetX + screenImgX * scale,
+      y: offsetY + screenImgY * scale,
+      w: screenImgW * scale,
+      h: screenImgH * scale,
+      tl: this.screenQuad.tl,
+      tr: this.screenQuad.tr,
+      bl: this.screenQuad.bl,
+      br: this.screenQuad.br
+    };
 
     const isFormed = (this.currentAnimState === "formed");
 
     this.particles.forEach(p => {
-      // Map original pixel offsets to scaled coordinates
       if (p.imgX !== undefined && p.imgY !== undefined) {
-        const homeX = offsetX + p.imgX * scale;
-        const homeY = offsetY + p.imgY * scale;
+        // Map flat 1024x724 coordinates to skewed quad corners using bilinear interpolation
+        const u = p.imgX / 1024;
+        const v = p.imgY / 724;
+
+        const homeX = (1 - u) * (1 - v) * this.logoQuad.tl.x +
+                      u * (1 - v) * this.logoQuad.tr.x +
+                      (1 - u) * v * this.logoQuad.bl.x +
+                      u * v * this.logoQuad.br.x;
+
+        const homeY = (1 - u) * (1 - v) * this.logoQuad.tl.y +
+                      u * (1 - v) * this.logoQuad.tr.y +
+                      (1 - u) * v * this.logoQuad.bl.y +
+                      u * v * this.logoQuad.br.y;
 
         if (isFormed) {
           p.target.x = homeX;
           p.target.y = homeY;
         } else {
-          // Scattered target position nearby
-          p.target.x = homeX + Math.cos(p.scatterAngle) * p.scatterDistance;
-          p.target.y = homeY + Math.sin(p.scatterAngle) * p.scatterDistance;
+          // Scattered target position nearby (scaled to screen size)
+          const scatterDistance = p.scatterDistance * scale * 0.45;
+          p.target.x = homeX + Math.cos(p.scatterAngle) * scatterDistance;
+          p.target.y = homeY + Math.sin(p.scatterAngle) * scatterDistance;
         }
       } else {
-        p.target.x = offsetX;
-        p.target.y = offsetY;
+        p.target.x = this.logoQuad.tl.x;
+        p.target.y = this.logoQuad.tl.y;
       }
     });
   }
 
   assemble() {
-    // Reset timer to the start of the "formed" state (0) so it snaps together right as preloader fades out!
     this.stateTimer = 0;
     this.currentAnimState = "formed";
     this.updateTargetPositions();
 
     this.particles.forEach(particle => {
-      // Spawn particles near their targets in a nearby shimmery space (50px to 110px offset)
       const angle = Math.random() * Math.PI * 2;
       const distance = 50 + Math.random() * 60; // nearby space
       
       particle.pos.x = particle.target.x + Math.cos(angle) * distance;
       particle.pos.y = particle.target.y + Math.sin(angle) * distance;
 
-      // Snappy responsive velocity towards target
       particle.vel.x = (Math.random() - 0.5) * 14;
       particle.vel.y = (Math.random() - 0.5) * 14;
       particle.colorWeight = 0;
@@ -401,12 +484,15 @@ class LogoParticleEffectApp {
     }
 
     const isScattered = (this.currentAnimState === "scattered");
-    const forceRadius = 140;
-    const strength = 1.2;
+    
+    // Scale pointer repulsion radius based on computed screen size (around 22% of screen width)
+    const forceRadius = this.screenBounds.w * 0.22; 
+    const strength = 1.0;
 
+    // Draw the particles (clean round dots, let the background image's reflections work naturally)
     for (let i = this.particles.length - 1; i >= 0; i--) {
       const particle = this.particles[i];
-      particle.move(mx, my, isHovered, isScattered, forceRadius, strength, this.canvas.width, this.canvas.height);
+      particle.move(mx, my, isHovered, isScattered, forceRadius, strength, this.canvas.width, this.canvas.height, this.screenBounds);
       particle.draw(this.ctx);
 
       if (particle.isKilled) {
@@ -424,28 +510,31 @@ class LogoParticleEffectApp {
     this.animationReq = requestAnimationFrame(this.animate);
   }
 
+  isPointInQuad(p, q) {
+    if (!q || !q.tl || !q.tr || !q.bl || !q.br) return false;
+    const c1 = (q.tr.x - q.tl.x) * (p.y - q.tl.y) - (q.tr.y - q.tl.y) * (p.x - q.tl.x);
+    const c2 = (q.br.x - q.tr.x) * (p.y - q.tr.y) - (q.br.y - q.tr.y) * (p.x - q.tr.x);
+    const c3 = (q.bl.x - q.br.x) * (p.y - q.br.y) - (q.bl.y - q.br.y) * (p.x - q.br.x);
+    const c4 = (q.tl.x - q.bl.x) * (p.y - q.bl.y) - (q.tl.y - q.bl.y) * (p.x - q.bl.x);
+    
+    return (c1 >= 0 && c2 >= 0 && c3 >= 0 && c4 >= 0) || (c1 <= 0 && c2 <= 0 && c3 <= 0 && c4 <= 0);
+  }
+
   setupEvents() {
     const handlePointerMove = (e) => {
-      const placeholder = document.getElementById(this.placeholderId);
-      if (!placeholder) return;
-
-      const pRect = placeholder.getBoundingClientRect();
       const cRect = this.container.getBoundingClientRect();
 
       const clientX = e.clientX || (e.touches && e.touches[0] && e.touches[0].clientX);
       const clientY = e.clientY || (e.touches && e.touches[0] && e.touches[0].clientY);
 
       if (clientX !== undefined && clientY !== undefined) {
-        this.mouse.x = clientX - cRect.left;
-        this.mouse.y = clientY - cRect.top;
+        const mx = clientX - cRect.left;
+        const my = clientY - cRect.top;
+        this.mouse.x = mx;
+        this.mouse.y = my;
 
-        const pad = 120;
-        if (
-          clientX >= pRect.left - pad &&
-          clientX <= pRect.right + pad &&
-          clientY >= pRect.top - pad &&
-          clientY <= pRect.bottom + pad
-        ) {
+        // Check if mouse coordinates are inside the mathematically calculated screen quad
+        if (this.isPointInQuad(this.mouse, this.screenQuad)) {
           this.mouse.isHovered = true;
         } else {
           this.mouse.isHovered = false;

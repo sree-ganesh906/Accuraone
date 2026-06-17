@@ -1,58 +1,57 @@
 <!DOCTYPE html>
-<!-- saved from url=(0022)http://localhost:8000/ -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AccuraOne | High-End Business Consultancy</title>
-    <meta name="description" content="AccuraOne: Simplifying success, empowering business futures. Specializing in ERP, Accounting, Branding, and Vendor Registration.">
-    <link rel="preconnect" href="https://fonts.googleapis.com/">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-    <link href="./AccuraOne _ High-End Business Consultancy_files/css2" rel="stylesheet">
-    <link rel="stylesheet" href="./AccuraOne _ High-End Business Consultancy_files/styles.css?v=9">
+    <meta name="description"
+        content="AccuraOne: Simplifying success, empowering business futures. Specializing in ERP, Accounting, Branding, and Vendor Registration.">
+    <link href="https://fonts.cdnfonts.com/css/nexa" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=108">
+    <link rel="stylesheet" href="ScrollVelocity.css?v=11">
+    <link rel="stylesheet" href="GlitchText.css?v=10">
+    <link rel="stylesheet" href="MagicBento.css">
+    <link rel="stylesheet" href="OrbitImages.css?v=6">
     <link rel="stylesheet" href="TextType.css">
-    <link rel="stylesheet" href="OrbitImages.css">
-    <style>
-        .left-hero-logo {
-            position: absolute;
-            top: 22%;
-            left: 5%;
-            transform: translateY(0);
-            width: clamp(200px, 20vw, 350px);
-            z-index: 20;
-            filter: drop-shadow(0 15px 30px rgba(155, 81, 224, 0.4));
-        }
-        @keyframes floatHeroLogo {
-            0% { transform: translateY(0) rotate(0deg) scale(1); }
-            50% { transform: translateY(-5%) rotate(2deg) scale(1.05); }
-            100% { transform: translateY(0) rotate(0deg) scale(1); }
-        }
-    </style>
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .nav-item { color: #fff !important; }
+        .menu-toggle i { color: #fff !important; }
+        .scroller, .scroller span {
+            font-family: var(--font-heading) !important;
+        }
+    </style>
 </head>
+
 <body>
 
+    <!-- Night Sky Canvas Background -->
+    <canvas id="night-sky-canvas"></canvas>
     <!-- Precision Preloader -->
     <div id="preloader">
-        <div class="preloader-content">
+        <div class="preloader-content" style="display: flex; flex-direction: column; align-items: center; gap: 25px;">
             <img src="loading_logo_v2.png" alt="AccuraOne Loading Logo" class="loading-logo-img">
             <div class="glow-effect"></div>
+            <!-- Rotating Loading Spinner -->
+            <div class="preloader-spinner"></div>
         </div>
     </div>
 
     <!-- Header Navigation -->
-    <header id="main-header" class="">
+    <header id="main-header">
         <div class="container header-container">
-            <a href="http://localhost:8000/#" class="logo-link">
-                <img src="./AccuraOne _ High-End Business Consultancy_files/logo.png" alt="AccuraOne Logo" class="brand-logo">
+            <a href="#" class="logo-link">
+                <img src="white_text_logo.png?v=3" alt="AccuraOne Logo" class="brand-logo">
             </a>
             <nav class="nav-links">
-                <a href="http://localhost:8000/#home" class="nav-item active">Home</a>
-                <a href="http://localhost:8000/#about" class="nav-item">About Us</a>
-                <a href="http://localhost:8000/#services" class="nav-item">Services</a>
-                <a href="http://localhost:8000/#gallery" class="nav-item">Gallery</a>
-                <a href="http://localhost:8000/#partners" class="nav-item">Partners</a>
-                <a href="http://localhost:8000/#contact" class="nav-item">Contact Us</a>
+                <a href="#home" class="nav-item">Home</a>
+                <a href="#about" class="nav-item">About Us</a>
+                <a href="#services" class="nav-item">Services</a>
+                <a href="#gallery" class="nav-item">Gallery</a>
+                <a href="#partners" class="nav-item">Partners</a>
+                <a href="#contact" class="nav-item">Contact Us</a>
             </nav>
             <div class="menu-toggle">
                 <i class="fas fa-bars"></i>
@@ -63,61 +62,127 @@
     <main>
         <!-- Hero Section -->
         <section id="home" class="hero parallax-container" style="position: relative;">
-            <!-- Left Side Logo with Particle Animation -->
-            <div id="left-logo-particle" class="left-hero-logo"></div>
+            <!-- ScrollVelocity Banner -->
+            <div class="scroll-velocity-banner parallax" id="scroll-velocity-banner">
+                <div class="scroller" id="scroll-velocity-scroller"></div>
+            </div>
 
             <!-- Parallax Skyline Layer -->
-            <div class="hero-skyline layer" data-speed="0.2" style="transform: translateY(0.16px);"></div>
-            
+            <div class="hero-skyline layer" data-speed="0.2"></div>
+
             <!-- Evolving Partnership Faders -->
-            <div class="hero-fader" id="fader-1" style="background-image: url(&#39;extracted_images/page1_img1.jpeg&#39;)"></div>
-            <div class="hero-fader active" id="fader-2" style="background-image: url(&#39;extracted_images/page2_img1.jpeg&#39;)"></div>
-            <div class="hero-fader" id="fader-3" style="background-image: url(&#39;extracted_images/page3_img1.jpeg&#39;)"></div>
-            
-            <!-- Network Canvas for 3D Background -->
-            <canvas id="network-canvas" class="hero-canvas" width="1528" height="732"></canvas>
-            
+            <div class="hero-fader" id="fader-1" style="background-image: url('extracted_images/page1_img1.jpeg')">
+            </div>
+            <div class="hero-fader" id="fader-2" style="background-image: url('extracted_images/page2_img1.jpeg')">
+            </div>
+            <div class="hero-fader" id="fader-3" style="background-image: url('extracted_images/page3_img1.jpeg')">
+            </div>
+
+            <!-- Orb Background -->
+            <div id="orb-container" class="orb-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none;"></div>
+
             <!-- Overlay to make text pop -->
             <div class="hero-overlay"></div>
 
             <div class="container hero-content">
-                <div class="reveal blur-reveal" style="padding: 50px 0; max-width: 650px; position: relative;">
-                    <img src="./AccuraOne _ High-End Business Consultancy_files/logo.png" alt="AccuraOne Big Logo" class="hero-main-logo">
-                    <div id="hero-typing-container" class="hero-typing" style="margin-top: 10px; margin-bottom: 20px; min-height: 250px;"></div>
+                <div class="hero-sidebar reveal blur-reveal">
+                    <!-- Welcome Description (Placed at the top) -->
+                    <p class="hero-subtext">
+                        Welcome to the future of consultancy, where precision meets excellence.
+                    </p>
+
+                    <!-- Left Side Logo with Particle Animation (Placed at the bottom) -->
+                    <div id="left-logo-particle" class="left-hero-logo" style="aspect-ratio: 1024 / 724;"></div>
                 </div>
-                
             </div>
         </section>
 
-        <!-- About Us Section -->
-        <section id="about" class="about section-padding">
+        <section id="about" class="about section-padding bento-section">
             <div class="container">
-                <div class="reveal bottom-reveal" style="background-color: #4A0E95; padding: 40px; padding-bottom: 60px; color: white; display: flex; flex-direction: column; gap: 30px; position: relative; border-radius: 8px;">
+                <div class="reveal bottom-reveal"
+                    style="padding: 40px; padding-bottom: 60px; color: var(--clr-text-main); display: flex; flex-direction: column; gap: 30px; position: relative; border-radius: 8px;">
                     <!-- Logo top left -->
                     <div>
-                        <img src="./AccuraOne _ High-End Business Consultancy_files/logo.png" alt="AccuraOne Logo" style="height: 50px; filter: brightness(0) invert(1);">
+                        <img src="logo_white.png" alt="AccuraOne Logo" style="height: 50px;">
                     </div>
-                    
-                    <div class="ceo-wrapper" style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start;">
-                        <!-- Left side: Quotes and Image -->
-                        <div class="ceo-photo-container" style="flex: 1; min-width: 300px; display: flex; flex-direction: column; max-width: 350px;">
-                            <div style="display: flex; gap: 15px; align-items: flex-start;">
-                                <i class="fas fa-quote-left" style="font-size: 5rem; color: white; margin-top: -10px;"></i>
-                                <img id="ceo-photo" src="ceo_cropped.jpg" alt="CEO Shafaf Patterkadaran" style="width: 100%; border-radius: 5px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); cursor: pointer;">
+
+                    <!-- Company Overview & Details -->
+                    <div class="company-overview" style="margin-bottom: 20px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 40px; margin-top: 10px;">
+                        <h2 style="font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 800; color: var(--clr-text-main); margin-bottom: 25px; line-height: 1.2;">
+                            Simplifying success,<br>
+                            empowering <span style="color: var(--clr-purple);">business futures.</span>
+                        </h2>
+                        
+                        <p style="font-size: 1.1rem; line-height: 1.8; color: var(--clr-text-main); font-weight: 500; margin-bottom: 20px;">
+                            At AccuraOne, we make business success accessible by streamlining Accounting Service, branding and ERP Consulting that provide clear insights for informed decisions. With integrity and excellence, we're your trusted partner for a secure and prosperous future.
+                        </p>
+                        
+                        <p style="font-size: 1.1rem; line-height: 1.8; color: var(--clr-text-main); font-weight: 500; margin-bottom: 20px;">
+                            We also fuel growth with services like: Digital Marketing, Vendor Registrations, IT Solutions, GRO/PRO Support, ISO Certifications
+                        </p>
+                        
+                        <p style="font-size: 1.2rem; line-height: 1.8; color: var(--clr-text-main); font-weight: 700; margin-bottom: 50px;">
+                            Let's grow your business together!
+                        </p>
+                        
+                        <div class="vision-mission" style="display: flex; flex-direction: column; gap: 40px;">
+                            <!-- Vision Box -->
+                            <div style="background-color: var(--clr-purple); color: white; border-radius: 20px 20px 20px 20px; padding: 40px 30px 30px; position: relative; display: flex; align-items: center; justify-content: space-between; overflow: visible; box-shadow: none; border: 1px solid var(--clr-purple);" class="magic-bento-card">
+                                <div class="bento-card-badge vision-badge" style="position: absolute; top: -25px; left: 30px; background: var(--clr-purple); padding: 8px 25px; border-radius: 25px; font-weight: 800; font-size: 1.3rem; border: 2px solid #8ED0EB; display: flex; align-items: center; gap: 10px; color: #8ED0EB;">
+                                    <i class="fas fa-binoculars"></i> VISION
+                                </div>
+                                <div class="bento-card-text" style="flex: 1; padding-right: 30px;">
+                                    <p style="font-size: 1.1rem; margin: 0; line-height: 1.6; color: white; font-weight: 500;">
+                                        To be the trusted consultancy where Technology, Finance, and Creativity meet – Transforming business operations, brand presence, and global growth.
+                                    </p>
+                                </div>
+                                <div class="bento-card-icon" style="width: 120px; text-align: center; display: flex; justify-content: center; align-items: center;">
+                                    <i class="fas fa-eye" style="font-size: 6rem; color: #8ED0EB; text-shadow: 0 10px 20px rgba(0,0,0,0.5);"></i>
+                                </div>
                             </div>
-                            <div style="display: flex; justify-content: flex-start; align-items: flex-end; gap: 15px; margin-top: 15px; margin-left: 90px;">
+
+                            <!-- Mission Box -->
+                            <div style="background-color: var(--clr-purple); color: white; border-radius: 20px 20px 20px 20px; padding: 40px 30px 30px; position: relative; display: flex; align-items: center; justify-content: space-between; overflow: visible; box-shadow: none; border: 1px solid var(--clr-purple);" class="magic-bento-card">
+                                <div class="bento-card-badge mission-badge" style="position: absolute; top: -25px; right: 30px; background: var(--clr-purple); padding: 8px 25px; border-radius: 25px; font-weight: 800; font-size: 1.3rem; border: 2px solid #8ED0EB; display: flex; align-items: center; gap: 10px; color: #8ED0EB;">
+                                    MISSION <i class="fas fa-bullseye"></i>
+                                </div>
+                                <div class="bento-card-icon" style="width: 120px; text-align: center; display: flex; justify-content: center; align-items: center;">
+                                    <i class="fas fa-bullseye" style="font-size: 6rem; color: #8ED0EB; text-shadow: 0 10px 20px rgba(0,0,0,0.5);"></i>
+                                </div>
+                                <div class="bento-card-text" style="flex: 1; padding-left: 30px; text-align: right;">
+                                    <p style="font-size: 1.1rem; margin: 0; line-height: 1.6; color: white; font-weight: 500; text-align: left;">
+                                        Empower organizations with end-to-end solutions to optimize operations, secure brand identity, and accelerate market growth.
+                                    </p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="ceo-wrapper" style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start;">
+                        <!-- Left side: Image -->
+                        <div class="ceo-photo-container"
+                            style="flex: 1; min-width: 300px; display: flex; flex-direction: column; max-width: 350px;">
+                            <div style="display: flex; gap: 15px; align-items: flex-start;">
+                                <img id="ceo-photo" src="ceo_cropped.jpg" alt="CEO Shafaf Patterkadaran"
+                                    style="width: 100%; border-radius: 5px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); cursor: pointer;">
+                            </div>
+                            <div
+                                style="display: flex; justify-content: flex-start; align-items: flex-end; gap: 15px; margin-top: 15px;">
                                 <div style="line-height: 1.4;">
-                                    <h4 style="font-size: 1.2rem; font-weight: 700; margin: 0; color: white;">Mr. Shafaf Patterkadaran,</h4>
+                                    <h4 style="font-size: 1.2rem; font-weight: 700; margin: 0; color: white;">Mr. Shafaf
+                                        Patterkadaran,</h4>
                                     <span style="font-size: 0.9rem; color: #e0e0e0;">CEO, Accuraone</span>
                                 </div>
-                                <i class="fas fa-quote-right" style="font-size: 5rem; color: white; margin-bottom: -20px;"></i>
                             </div>
                         </div>
-                        
+
                         <!-- Right side: Text -->
                         <div class="ceo-text-container" style="flex: 1.5; min-width: 300px; padding-top: 15px;">
-                            <p style="font-size: 1.2rem; line-height: 1.8; color: white; margin: 0; font-family: var(--font-body); font-weight: 500;">
-                                Mr. Shafaf Patterkadaran, CEO of Accura One, Riyadh, is a seasoned business management professional with over 3 years of expertise in delivering end-to-end solutions, including ERP implementation, accounting, finance, branding, digital marketing, and trademark protection.
+                            <p
+                                style="font-size: 1.2rem; line-height: 1.8; color: white; margin: 0; font-family: var(--font-body); font-weight: 600;">
+                                Shafaf Patterkadaran is the CEO of AccuraOne, Riyadh - Is a business solutions professional with over five years of experience helping companies across Saudi Arabia build stronger operations and grow with confidence. With over five years of focused experience in ERP implementation, SOP development, company formation, accounting, branding, digital marketing, and trademark protection. Shafaf brings clarity and structure to businesses ready to grow, delivering practical solutions that create real, lasting impact.
                             </p>
                         </div>
                     </div>
@@ -126,105 +191,294 @@
         </section>
 
         <!-- Services Section -->
-        <section id="services" class="services section-padding parallax-bg">
+        <section id="services" class="services section-padding parallax-bg bento-section">
             <div class="container">
                 <div class="section-title reveal blur-reveal">
                     <h2>Integrated <span class="text-gradient">Services</span></h2>
                     <p>Targeted solutions precisely engineered to scale your business.</p>
                 </div>
-                
+
                 <div class="services-grid">
-                    <div class="service-card glass-container reveal bottom-reveal" style="transition-delay: 0.1s">
+                    <div class="service-card glass-container reveal bottom-reveal magic-bento-card" style="transition-delay: 0.1s">
                         <div class="card-glow"></div>
-                        <i class="fas fa-server service-icon floating-element"></i>
+                        <i class="fas fa-server service-icon"></i>
                         <h3>ERP Software Consulting</h3>
-                        <p>Comprehensive integrations leveraging top platforms like Odoo, Zoho, and ERPNext to synchronize your operations.</p>
+                        <p>Comprehensive integrations leveraging top platforms like Odoo, Zoho, and ERPNext to
+                            synchronize your operations.</p>
                     </div>
-                    
-                    <div class="service-card glass-container reveal bottom-reveal" style="transition-delay: 0.2s">
+
+                    <div class="service-card glass-container reveal bottom-reveal magic-bento-card" style="transition-delay: 0.2s">
                         <div class="card-glow"></div>
-                        <i class="fas fa-calculator service-icon floating-element"></i>
-                        <h3>Accounting &amp; Virtual CFO</h3>
-                        <p>Precision-driven financial management and fractional CFO services to safeguard and optimize your capital.</p>
+                        <i class="fas fa-calculator service-icon"></i>
+                        <h3>Accounting & Virtual CFO</h3>
+                        <p>Precision-driven financial management and fractional CFO services to safeguard and optimize
+                            your capital.</p>
                     </div>
-                    
-                    <div class="service-card glass-container reveal bottom-reveal" style="transition-delay: 0.3s">
+
+                    <div class="service-card glass-container reveal bottom-reveal magic-bento-card" style="transition-delay: 0.3s">
                         <div class="card-glow"></div>
-                        <i class="fas fa-lightbulb service-icon floating-element"></i>
+                        <i class="fas fa-lightbulb service-icon"></i>
                         <h3>Business Branding</h3>
-                        <p>Futuristic digital marketing and branding to solidify your market presence and capture audience imagination.</p>
+                        <p>Futuristic digital marketing and branding to solidify your market presence and capture
+                            audience imagination.</p>
                     </div>
-                    
-                    <div class="service-card glass-container reveal bottom-reveal" style="transition-delay: 0.4s">
+
+                    <div class="service-card glass-container reveal bottom-reveal magic-bento-card" style="transition-delay: 0.4s">
                         <div class="card-glow"></div>
-                        <i class="fas fa-file-signature service-icon floating-element"></i>
+                        <i class="fas fa-file-signature service-icon"></i>
                         <h3>Vendor Registration</h3>
-                        <p>Expert facilitation for tier-1 vendor approvals with industry giants like Aramco, SABIC, and NEOM.</p>
+                        <p>Expert facilitation for tier-1 vendor approvals with industry giants like Aramco, SABIC, and
+                            NEOM.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Gallery Section -->
-        <section id="gallery" class="gallery section-padding">
+        <section id="gallery" class="gallery section-padding bento-section">
             <div class="container">
                 <div class="section-title reveal blur-reveal">
                     <h2>Visual <span class="text-gradient">Excellence</span></h2>
                     <p>A glimpse into our state-of-the-art methodology.</p>
                 </div>
-                <div class="gallery-grid">
-                    <div class="gallery-item reveal zoom-reveal"><img src="./AccuraOne _ High-End Business Consultancy_files/page4_img1.jpeg" alt="Office space"></div>
-                    <div class="gallery-item reveal zoom-reveal" style="transition-delay: 0.1s"><img src="./AccuraOne _ High-End Business Consultancy_files/page5_img1.jpeg" alt="Team meeting"></div>
-                    <div class="gallery-item reveal zoom-reveal" style="transition-delay: 0.2s"><img src="./AccuraOne _ High-End Business Consultancy_files/page6_img1.jpeg" alt="Data analysis"></div>
-                    <div class="gallery-item reveal zoom-reveal" style="transition-delay: 0.3s"><img src="./AccuraOne _ High-End Business Consultancy_files/page8_img1.jpeg" alt="Tech integration"></div>
+                <!-- Images Carousel (Scrolling Right) -->
+                <style>
+                    @keyframes scrollImagesRight {
+                        0% { transform: translateX(calc(-350px * 4 - 30px * 4)); }
+                        100% { transform: translateX(0); }
+                    }
+                    .image-carousel-track:hover {
+                        animation-play-state: paused;
+                    }
+                    .image-item {
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;
+                    }
+                    .image-item:hover {
+                        transform: scale(1.05);
+                        box-shadow: 0 25px 45px rgba(99, 2, 96, 0.4);
+                        z-index: 10;
+                    }
+                </style>
+                <div class="image-carousel-container reveal blur-reveal" style="overflow: hidden; width: 100%; position: relative; padding: 40px 0; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);">
+                    <div class="image-carousel-track" style="display: flex; gap: 30px; width: max-content; animation: scrollImagesRight 25s linear infinite;">
+                        <!-- Set 1 (Prepended for right-scroll loop) -->
+                        <div class="image-item magic-bento-card" style="border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); height: 300px; flex-shrink: 0; border: 2px solid var(--clr-purple); display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
+                            <img src="extracted_images/page4_img1.jpeg" alt="Gallery Image 1" style="height: 100%; width: auto; display: block; object-fit: contain;">
+                        </div>
+                        <div class="image-item magic-bento-card" style="border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); height: 300px; flex-shrink: 0; border: 2px solid var(--clr-purple); display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
+                            <img src="extracted_images/page5_img1.jpeg" alt="Gallery Image 2" style="height: 100%; width: auto; display: block; object-fit: contain;">
+                        </div>
+                        <div class="image-item magic-bento-card" style="border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); height: 300px; flex-shrink: 0; border: 2px solid var(--clr-purple); display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
+                            <img src="extracted_images/page6_img1.jpeg" alt="Gallery Image 3" style="height: 100%; width: auto; display: block; object-fit: contain;">
+                        </div>
+                        <div class="image-item magic-bento-card" style="border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); height: 300px; flex-shrink: 0; border: 2px solid var(--clr-purple); display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
+                            <img src="extracted_images/page8_img1.jpeg" alt="Gallery Image 4" style="height: 100%; width: auto; display: block; object-fit: contain;">
+                        </div>
+                        <!-- Set 2 -->
+                        <div class="image-item magic-bento-card" style="border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); height: 300px; flex-shrink: 0; border: 2px solid var(--clr-purple); display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
+                            <img src="extracted_images/page4_img1.jpeg" alt="Gallery Image 1" style="height: 100%; width: auto; display: block; object-fit: contain;">
+                        </div>
+                        <div class="image-item magic-bento-card" style="border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); height: 300px; flex-shrink: 0; border: 2px solid var(--clr-purple); display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
+                            <img src="extracted_images/page5_img1.jpeg" alt="Gallery Image 2" style="height: 100%; width: auto; display: block; object-fit: contain;">
+                        </div>
+                        <div class="image-item magic-bento-card" style="border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); height: 300px; flex-shrink: 0; border: 2px solid var(--clr-purple); display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
+                            <img src="extracted_images/page6_img1.jpeg" alt="Gallery Image 3" style="height: 100%; width: auto; display: block; object-fit: contain;">
+                        </div>
+                        <div class="image-item magic-bento-card" style="border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); height: 300px; flex-shrink: 0; border: 2px solid var(--clr-purple); display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
+                            <img src="extracted_images/page8_img1.jpeg" alt="Gallery Image 4" style="height: 100%; width: auto; display: block; object-fit: contain;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Carousel -->
+                <style>
+                    @keyframes scrollVideos {
+                        0% { transform: translateX(0); }
+                        100% { transform: translateX(calc(-300px * 3 - 30px * 3)); }
+                    }
+                    .video-carousel-track:hover {
+                        animation-play-state: paused;
+                    }
+                    .video-item {
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;
+                    }
+                    .video-item:hover {
+                        transform: scale(1.05);
+                        box-shadow: 0 25px 45px rgba(99, 2, 96, 0.4);
+                        z-index: 10;
+                    }
+                </style>
+                <div class="video-carousel-container reveal blur-reveal" style="overflow: hidden; width: 100%; position: relative; padding: 40px 0; margin-top: 40px; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);">
+                    <div class="video-carousel-track" style="display: flex; gap: 30px; width: max-content; animation: scrollVideos 20s linear infinite;">
+                        <!-- Set 1 -->
+                        <div class="video-item magic-bento-card" style="border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); height: 400px; flex-shrink: 0; border: 2px solid var(--clr-purple); display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
+                            <video src="vid1.mp4" autoplay loop muted playsinline style="height: 100%; width: auto; display: block; object-fit: contain;"></video>
+                        </div>
+                        <div class="video-item magic-bento-card" style="border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); height: 400px; flex-shrink: 0; border: 2px solid var(--clr-purple); display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
+                            <video src="vid2.mp4" autoplay loop muted playsinline style="height: 100%; width: auto; display: block; object-fit: contain;"></video>
+                        </div>
+                        <div class="video-item magic-bento-card" style="border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); height: 400px; flex-shrink: 0; border: 2px solid var(--clr-purple); display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
+                            <video src="vid3.mp4" autoplay loop muted playsinline style="height: 100%; width: auto; display: block; object-fit: contain;"></video>
+                        </div>
+                        <!-- Set 2 for infinite loop -->
+                        <div class="video-item magic-bento-card" style="border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); height: 400px; flex-shrink: 0; border: 2px solid var(--clr-purple); display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
+                            <video src="vid1.mp4" autoplay loop muted playsinline style="height: 100%; width: auto; display: block; object-fit: contain;"></video>
+                        </div>
+                        <div class="video-item magic-bento-card" style="border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); height: 400px; flex-shrink: 0; border: 2px solid var(--clr-purple); display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
+                            <video src="vid2.mp4" autoplay loop muted playsinline style="height: 100%; width: auto; display: block; object-fit: contain;"></video>
+                        </div>
+                        <div class="video-item magic-bento-card" style="border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); height: 400px; flex-shrink: 0; border: 2px solid var(--clr-purple); display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
+                            <video src="vid3.mp4" autoplay loop muted playsinline style="height: 100%; width: auto; display: block; object-fit: contain;"></video>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Partners / Social Proof Section -->
-        <section id="partners" class="partners section-padding">
+        <section id="partners" class="partners section-padding bento-section">
             <div class="container">
                 <div class="section-title reveal blur-reveal">
                     <h2>Valued <span class="text-gradient">Clients</span></h2>
                     <p>Fostering long-term relationships with industry leaders.</p>
                 </div>
-                <div class="carousel-container reveal blur-reveal">
-                    <div class="carousel-track">
-                        <!-- Duplicated for infinite scroll effect -->
-                        <div class="client-logo">Mohammad Al Baraa Co</div>
-                        <div class="client-logo">Bright International</div>
-                        <div class="client-logo">Rafco</div>
-                        <div class="client-logo">Mohammad Al Baraa Co</div>
-                        <div class="client-logo">Bright International</div>
-                        <div class="client-logo">Rafco</div>
+                <div id="partners-orbit" class="reveal blur-reveal" style="width: 100%; max-width: 1200px; margin: 50px auto 0; position: relative;">
+                </div>
+
+                <!-- Vendor Badge Showcase -->
+                <div class="vendor-credential-container reveal blur-reveal" style="margin-top: 60px; display: flex; justify-content: center;">
+                    <div class="magic-bento-card vendor-card">
+                        <div class="bento-card-badge vendor-badge">
+                            <i class="fas fa-handshake"></i> APPROVED VENDOR
+                        </div>
+                        <div class="vendor-logo-wrapper">
+                            <img src="saudi_aramco_logo.jpg" alt="Saudi Aramco Approved Vendor">
+                            <div class="vendor-logo-divider">
+                                <span class="vendor-logo-code-label">Vendor Code</span>
+                                <span class="vendor-logo-code">10113618</span>
+                            </div>
+                        </div>
+                        <div class="vendor-text-wrapper">
+                            <h3>Official Saudi Aramco Vendor</h3>
+                            <p>
+                                AccuraOne is registered as an official corporate supplier and service provider for Saudi Aramco. This status reflects our operational capabilities, compliance, and commitment to the highest quality standards.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certifications Showcase -->
+                <div class="certifications-credential-container reveal blur-reveal" style="margin-top: 40px; display: flex; justify-content: center;">
+                    <div class="magic-bento-card cert-card">
+                        <div class="bento-card-badge cert-badge">
+                            <i class="fas fa-award"></i> CERTIFICATIONS
+                        </div>
+                        <div class="bento-card-text">
+                            <h4>ISO 9001 • 14001 • 45001</h4>
+                            <p>
+                                AccuraOne is officially ISO certified, reflecting our unwavering commitment to Quality Management, Environmental Protection, and Occupational Health &amp; Safety.
+                            </p>
+                        </div>
+                        <div class="bento-card-image" style="order: 2;">
+                            <img src="iso_certifications.jpg" alt="ISO 9001, 14001, 45001 Certifications">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Partners Section Heading -->
+                <div class="section-title reveal blur-reveal" style="margin-top: 80px; margin-bottom: 40px;">
+                    <h2>Strategic <span class="text-gradient">Partners</span></h2>
+                    <p>Collaborating with top-tier technology and solution ecosystems.</p>
+                </div>
+
+                <!-- Infinite Ticker Partners Slider -->
+                <div class="partners-slider-container reveal blur-reveal">
+                    <div class="partners-scroll-container">
+                        <div class="partners-infinite-scroll">
+                            <!-- Set 1 -->
+                            <div class="partner-logo-item">
+                                <img src="partner_logo_1.jpg" alt="Accolyst Logo">
+                            </div>
+                            <div class="partner-logo-item">
+                                <img src="partner_logo_2.jpg" alt="Plumcot IT Logo">
+                            </div>
+                            <div class="partner-logo-item">
+                                <img src="partner_logo_3.jpg" alt="Zoho Logo">
+                            </div>
+                            <div class="partner-logo-item">
+                                <img src="partner_logo_4.jpg" alt="Partner Logo 4">
+                            </div>
+                            <div class="partner-logo-item">
+                                <img src="partner_logo_5.jpg" alt="Partner Logo 5">
+                            </div>
+                            <div class="partner-logo-item">
+                                <img src="partner_logo_6.jpg" alt="Partner Logo 6">
+                            </div>
+                            <!-- Set 2 (Duplicated for seamless loop) -->
+                            <div class="partner-logo-item">
+                                <img src="partner_logo_1.jpg" alt="Accolyst Logo">
+                            </div>
+                            <div class="partner-logo-item">
+                                <img src="partner_logo_2.jpg" alt="Plumcot IT Logo">
+                            </div>
+                            <div class="partner-logo-item">
+                                <img src="partner_logo_3.jpg" alt="Zoho Logo">
+                            </div>
+                            <div class="partner-logo-item">
+                                <img src="partner_logo_4.jpg" alt="Partner Logo 4">
+                            </div>
+                            <div class="partner-logo-item">
+                                <img src="partner_logo_5.jpg" alt="Partner Logo 5">
+                            </div>
+                            <div class="partner-logo-item">
+                                <img src="partner_logo_6.jpg" alt="Partner Logo 6">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Contact Section -->
-        <section id="contact" class="contact section-padding">
+        <section id="contact" class="contact section-padding bento-section">
             <div class="container contact-wrapper">
-                <div class="contact-info glass-container reveal left-reveal">
+                <div class="contact-info glass-container reveal left-reveal magic-bento-card">
                     <h2>Ready to <span class="text-gradient">Transform?</span></h2>
                     <p>Connect with our Riyadh office to synthesize your growth.</p>
                     <ul class="contact-list">
-                        <li><i class="fas fa-map-marker-alt"></i> <span>Riyadh Office, Kingdom of Saudi Arabia</span></li>
-                        <li><i class="fas fa-phone-alt"></i> <span><a href="tel:+966540415103">+966 540 415103</a></span></li>
-                        <li><i class="fas fa-envelope"></i> <span><a href="mailto:shafaf@accuraone.com">shafaf@accuraone.com</a></span></li>
+                        <li><i class="fas fa-map-marker-alt"></i> <span><a href="https://maps.app.goo.gl/6DPRqzhgt1LEnisj9?g_st=awb" target="_blank" style="color: var(--clr-text-main);">Riyadh Office, Kingdom of Saudi Arabia</a></span>
+                        </li>
+                        <li><i class="fas fa-phone-alt"></i> <span><a href="tel:+966540415103">+966 540
+                                    415103</a></span></li>
+                        <li><i class="fas fa-envelope"></i> <span><a
+                                    href="mailto:shafaf@accuraone.com">shafaf@accuraone.com</a></span></li>
                     </ul>
+                    <!-- Catchy Interactive Map Embed -->
+                    <div class="map-embed-wrapper" style="position: relative; border-radius: 12px; overflow: hidden; border: 1.5px solid var(--clr-glass-border); box-shadow: 0 8px 25px rgba(0,0,0,0.3); margin-top: 25px;">
+                        <iframe src="https://maps.google.com/maps?q=Accuraone,%20Jarir%20St,%20Al%20Malaz,%20Riyadh%2012836&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                                width="100%" 
+                                height="220" 
+                                style="border:0; display:block; filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(90%);" 
+                                allowfullscreen="" 
+                                loading="lazy"></iframe>
+                        <div class="map-overlay" style="position: absolute; bottom: 10px; right: 10px; z-index: 10;">
+                            <a href="https://maps.app.goo.gl/6DPRqzhgt1LEnisj9?g_st=awb" target="_blank" class="btn-map-link" style="background: rgba(15, 10, 25, 0.85); color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; border: 1px solid var(--clr-magenta); display: inline-flex; align-items: center; gap: 8px; font-weight: 700; box-shadow: 0 4px 15px rgba(145, 75, 199, 0.4); text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.3s ease; text-decoration: none;" onmouseover="this.style.background='var(--clr-magenta)'; this.style.borderColor='var(--clr-purple)'" onmouseout="this.style.background='rgba(15, 10, 25, 0.85)'; this.style.borderColor='var(--clr-magenta)'">
+                                <span>Find Us</span> <i class="fas fa-directions" style="color: #ffffff; font-size: 0.9rem;"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <form class="contact-form glass-container reveal right-reveal">
+                <form class="contact-form glass-container reveal right-reveal magic-bento-card">
                     <div class="form-group">
-                        <input type="text" id="name" required="" placeholder=" ">
+                        <input type="text" id="name" required placeholder=" ">
                         <label for="name">Your Name</label>
                     </div>
                     <div class="form-group">
-                        <input type="email" id="email" required="" placeholder=" ">
+                        <input type="email" id="email" required placeholder=" ">
                         <label for="email">Business Email</label>
                     </div>
                     <div class="form-group">
-                        <textarea id="message" required="" placeholder=" " rows="4"></textarea>
+                        <textarea id="message" required placeholder=" " rows="4"></textarea>
                         <label for="message">Project Requirements</label>
                     </div>
                     <button type="submit" class="btn-3d-flip submit-btn">
@@ -240,170 +494,300 @@
         </section>
     </main>
 
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <div class="lightbox-prev" id="lightbox-prev"><i class="fas fa-chevron-left"></i></div>
+        <img class="lightbox-img" id="lightbox-img" src="" alt="Enlarged Image" style="display: none;">
+        <video class="lightbox-video" id="lightbox-video" src="" autoplay loop controls muted playsinline style="display: none;"></video>
+        <div class="lightbox-next" id="lightbox-next"><i class="fas fa-chevron-right"></i></div>
+    </div>
+
     <footer>
         <div class="container footer-content">
             <div class="logo-link">
-                <img src="./AccuraOne _ High-End Business Consultancy_files/logo.png" alt="AccuraOne Logo" class="brand-logo" style="height: 40px;">
+                <img src="white_text_logo.png?v=3" alt="AccuraOne Logo" class="brand-logo" style="height: 40px;">
             </div>
             <div class="footer-links">
-                <a href="http://localhost:8000/#home">Home</a>
-                <a href="http://localhost:8000/#services">Services</a>
-                <a href="http://localhost:8000/#contact">Contact</a>
+                <a href="#home">Home</a>
+                <a href="#services">Services</a>
+                <a href="#contact">Contact</a>
             </div>
-            <p class="copyright">© 2026 AccuraOne Business Consultancy. All rights reserved.</p>
+            <p class="copyright">&copy; 2026 AccuraOne Business Consultancy. All rights reserved.</p>
             <div class="socials">
+                <a href="https://www.facebook.com/profile.php?id=61572539214208" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/accuraone?igsh=bGMxdjJkY25jbWE5" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
                 <a href="https://x.com/Accuraone" target="_blank" title="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
                 <a href="https://youtube.com/@accuraone?si=TjYz13syO-tjRBa5" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
                 <a href="https://www.tiktok.com/@accuraone" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
                 <a href="https://wa.me/966540415103" target="_blank" title="WhatsApp Us"><i class="fab fa-whatsapp"></i></a>
             </div>
+            <!-- Developer Info -->
+            <div class="developer-info" style="margin-top: 15px; font-size: 0.85rem; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 15px; width: 100%; max-width: 250px; text-align: center; margin-left: auto; margin-right: auto;">
+                <span style="color: var(--clr-text-muted); display: block; margin-bottom: 5px; font-weight: 500; letter-spacing: 0.5px;">Meet The Developers</span>
+                <a href="https://www.instagram.com/intellex.web?utm_source=ig_web_button_share_sheet&amp;igsh=ZDNlZDc0MzIxNw==" target="_blank" style="color: #00a884; font-weight: 700; text-decoration: none; font-size: 1rem; transition: color 0.3s ease; letter-spacing: 0.5px;" onmouseover="this.style.color='var(--clr-magenta)'" onmouseout="this.style.color='#00a884'">intellex.web</a>
+            </div>
         </div>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="ogl.js"></script>
+    <script src="Orb.js"></script>
+    <script src="MagicBento.js"></script>
+    <script src="SplashCursor.js"></script>
+    <script src="OrbitImages.js?v=6"></script>
+    <script src="ParticleTextEffect.js"></script>
     <script src="TextType.js"></script>
-    <script src="LogoParticleEffect.js?v=10"></script>
+    <script src="LogoParticleEffect.js?v=14"></script>
+    <script src="ScrollVelocity.js?v=10"></script>
     <script src="script.js?v=45"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {;
+        // Custom SplitText animation helper matching React Bits SplitText component logic
+        function animateSplitText(element, options = {}) {
+            if (!element) return;
+            
+            const settings = {
+                text: options.text || element.textContent.trim(),
+                delay: options.delay !== undefined ? options.delay : 50,
+                duration: options.duration !== undefined ? options.duration : 1.25,
+                ease: options.ease || 'power3.out',
+                splitType: options.splitType || 'chars',
+                from: options.from || { opacity: 0, y: 40 },
+                to: options.to || { opacity: 1, y: 0 },
+                threshold: options.threshold !== undefined ? options.threshold : 0.1,
+                rootMargin: options.rootMargin || '-100px',
+                textAlign: options.textAlign || 'left',
+                onLetterAnimationComplete: options.onLetterAnimationComplete
+            };
+            
+            element.innerHTML = '';
+            element.style.textAlign = settings.textAlign;
+            element.style.overflow = 'hidden';
+            element.style.display = 'inline-block';
+            element.style.whiteSpace = 'normal';
+            element.style.wordWrap = 'break-word';
+            element.style.willChange = 'transform, opacity';
+            
+            let targets = [];
+            if (settings.splitType.includes('chars')) {
+                const words = settings.text.split(' ');
+                words.forEach((word, wordIdx) => {
+                    const wordSpan = document.createElement('span');
+                    wordSpan.className = 'split-word';
+                    wordSpan.style.display = 'inline-block';
+                    wordSpan.style.whiteSpace = 'nowrap';
+                    
+                    word.split('').forEach(char => {
+                        const charSpan = document.createElement('span');
+                        charSpan.className = 'split-char';
+                        charSpan.style.display = 'inline-block';
+                        charSpan.style.willChange = 'transform, opacity';
+                        charSpan.innerHTML = char;
+                        wordSpan.appendChild(charSpan);
+                        targets.push(charSpan);
+                    });
+                    
+                    element.appendChild(wordSpan);
+                    
+                    if (wordIdx < words.length - 1) {
+                        const spaceSpan = document.createElement('span');
+                        spaceSpan.style.display = 'inline-block';
+                        spaceSpan.innerHTML = '&nbsp;';
+                        element.appendChild(spaceSpan);
+                    }
+                });
+            } else if (settings.splitType.includes('words')) {
+                settings.text.split(' ').forEach((word, idx, arr) => {
+                    const span = document.createElement('span');
+                    span.className = 'split-word';
+                    span.style.display = 'inline-block';
+                    span.style.willChange = 'transform, opacity';
+                    span.innerHTML = word;
+                    element.appendChild(span);
+                    targets.push(span);
+                    
+                    if (idx < arr.length - 1) {
+                        const space = document.createTextNode(' ');
+                        element.appendChild(space);
+                    }
+                });
+            }
+            
+            gsap.set(targets, settings.from);
+            
+            const startPct = (1 - settings.threshold) * 100;
+            const marginMatch = /^(-?\d+(?:\.\d+)?)(px|em|rem|%)?$/.exec(settings.rootMargin);
+            const marginValue = marginMatch ? parseFloat(marginMatch[1]) : 0;
+            const marginUnit = marginMatch ? marginMatch[2] || 'px' : 'px';
+            const sign = marginValue === 0 ? '' : (marginValue < 0 ? `-=${Math.abs(marginValue)}${marginUnit}` : `+=${marginValue}${marginUnit}`);
+            const start = `top ${startPct}%${sign}`;
+            
+            // Use IntersectionObserver to trigger animation when the element enters viewport
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        gsap.to(targets, {
+                            ...settings.to,
+                            duration: settings.duration,
+                            ease: settings.ease,
+                            stagger: settings.delay / 1000,
+                            onComplete: () => {
+                                if (typeof settings.onLetterAnimationComplete === 'function') {
+                                    settings.onLetterAnimationComplete();
+                                }
+                            }
+                        });
+                        observer.unobserve(element);
+                    }
+                });
+            }, {
+                threshold: settings.threshold,
+                rootMargin: settings.rootMargin
+            });
+            
+            observer.observe(element);
+        }
 
-            // 2. Sparkling Animation (spawns random sparkles)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize SplashCursor
+            splashCursor();
+
+            // Initialize Particle Text Effect in Hero Section
+            const particleContainer = document.getElementById('particle-text-container');
+            if (particleContainer) {
+                new ParticleTextEffectApp('particle-text-container', {
+                    words: ['accuraOne\\naccuracy in every solution']
+                });
+            }
+
+
+            // Initialize Logo Particle Effect
+            const homeSection = document.getElementById('home');
+            if (homeSection) {
+                window.logoEffectInstance = new LogoParticleEffectApp('home', 'white_text_logo.png?v=3', 'left-logo-particle');
+            }
+
+            // Initialize ScrollVelocity banner
+            initScrollVelocity('scroll-velocity-banner', 'YOUR TRUSTED PARTNER FOR INTEGRATED BUSINESS SOLUTIONS', 35);
+
+            // Initialize Text Roll Effect
+            const rollElements = document.querySelectorAll('.text-roll');
+            rollElements.forEach(el => {
+                const text = el.textContent.trim();
+                el.innerHTML = '';
+                
+                const topLine = document.createElement('span');
+                topLine.className = 'roll-top';
+                topLine.style.display = 'block';
+                topLine.style.position = 'relative';
+                
+                const bottomLine = document.createElement('span');
+                bottomLine.className = 'roll-bottom';
+                bottomLine.style.position = 'absolute';
+                bottomLine.style.top = '0';
+                bottomLine.style.left = '0';
+                bottomLine.style.width = '100%';
+                bottomLine.style.height = '100%';
+                bottomLine.style.pointerEvents = 'none';
+                
+                const STAGGER = 0.035;
+                
+                text.split('').forEach((char, i) => {
+                    const charSpanTop = document.createElement('span');
+                    charSpanTop.className = 'roll-char';
+                    charSpanTop.style.display = 'inline-block';
+                    charSpanTop.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+                    charSpanTop.style.transitionDelay = `${i * STAGGER}s`;
+                    charSpanTop.innerHTML = char === ' ' ? '&nbsp;' : char;
+                    topLine.appendChild(charSpanTop);
+                    
+                    const charSpanBottom = document.createElement('span');
+                    charSpanBottom.className = 'roll-char-bottom';
+                    charSpanBottom.style.display = 'inline-block';
+                    charSpanBottom.style.position = 'relative';
+                    charSpanBottom.style.transform = 'translateY(100%)';
+                    charSpanBottom.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+                    charSpanBottom.style.transitionDelay = `${i * STAGGER}s`;
+                    charSpanBottom.innerHTML = char === ' ' ? '&nbsp;' : char;
+                    bottomLine.appendChild(charSpanBottom);
+                });
+                
+                el.appendChild(topLine);
+                el.appendChild(bottomLine);
+                
+                el.addEventListener('mouseenter', () => {
+                    topLine.querySelectorAll('.roll-char').forEach(span => {
+                        span.style.transform = 'translateY(-100%)';
+                    });
+                    bottomLine.querySelectorAll('.roll-char-bottom').forEach(span => {
+                        span.style.transform = 'translateY(0)';
+                    });
+                });
+                
+                el.addEventListener('mouseleave', () => {
+                    topLine.querySelectorAll('.roll-char').forEach(span => {
+                        span.style.transform = 'translateY(0)';
+                    });
+                    bottomLine.querySelectorAll('.roll-char-bottom').forEach(span => {
+                        span.style.transform = 'translateY(100%)';
+                    });
+                });
+            });
+
+            // Initialize SplitText animation for the welcome subtext (matching React Bits SplitText component configuration)
+            const heroSubtext = document.querySelector('.hero-subtext');
+            if (heroSubtext) {
+                animateSplitText(heroSubtext, {
+                    delay: 100,
+                    duration: 0.6,
+                    ease: 'power3.out',
+                    splitType: 'chars',
+                    from: { opacity: 0, y: 40 },
+                    to: { opacity: 1, y: 0 },
+                    threshold: 0.1,
+                    rootMargin: '-100px',
+                    textAlign: 'center'
+                });
+            }
+
+            // Initialize OrbitImages for Client Logos
+            const orbitContainer = document.getElementById('partners-orbit');
+            if (orbitContainer) {
+                const partnerLogos = Array.from({length: 12}, (_, i) => `extracted_logos/logo_${i + 1}.png`);
+                
+                new OrbitImages(orbitContainer, {
+                    images: partnerLogos,
+                    shape: 'ellipse',
+                    radiusX: 620,
+                    radiusY: 280,
+                    rotation: -8,
+                    duration: 30,
+                    itemWidth: 220,
+                    itemHeight: 125,
+                    responsive: true,
+                    height: 700,
+                    centerContent: `
+                        <div class="orbit-center-content-inner">
+                            <img src="logo_icon_white.png" alt="AccuraOne" class="orbit-center-logo">
+                            <span class="orbit-center-text">Clients</span>
+                        </div>
+                    `
+                });
+            }
+
+            // 2. Sparkling Animation
             setInterval(() => {
                 const sparkle = document.createElement('div');
                 sparkle.classList.add('sparkle');
                 sparkle.style.left = Math.random() * window.innerWidth + 'px';
                 sparkle.style.top = Math.random() * window.innerHeight + 'px';
                 document.body.appendChild(sparkle);
-                
-                // Remove after animation completes
-                setTimeout(() => {
-                    sparkle.remove();
-                }, 2000);
-            }, 300); // spawn a new sparkle every 300ms
+                setTimeout(() => sparkle.remove(), 2000);
+            }, 300);
 
-            // Initialize TextType
-            const heroTypingContainer = document.getElementById('hero-typing-container');
-            if (heroTypingContainer) {
-                new TextType(heroTypingContainer, {
-                    text: ["YOUR TRUSTED\nPARTNER FOR\nINTEGRATED\nBUSINESS\nSOLUTIONS"],
-                    typingSpeed: 75,
-                    pauseDuration: 1500,
-                    showCursor: true,
-                    cursorCharacter: "|"
-                });
-            }
 
-            // Initialize Logo Particle Effect
-            const logoParticleContainer = document.getElementById('left-logo-particle');
-            if (logoParticleContainer) {
-                new LogoParticleEffectApp('left-logo-particle', 'white_text_logo.png');
-            }
-
-            // 3. Logo Particle Formation Animation
-            const logoImg = document.querySelector('.hero-main-logo');
-            if (logoImg) {
-                // Wrap logo in a relative container
-                const wrapper = document.createElement('div');
-                wrapper.style.position = 'relative';
-                wrapper.style.display = 'inline-block';
-                wrapper.style.width = '100%';
-                wrapper.style.marginBottom = '25px';
-                logoImg.parentNode.insertBefore(wrapper, logoImg);
-                wrapper.appendChild(logoImg);
-                logoImg.style.marginBottom = '0'; // reset margin
-                
-                logoImg.style.opacity = '0';
-                logoImg.style.transition = 'opacity 2s ease-in-out';
-                
-                const canvas = document.createElement('canvas');
-                canvas.style.position = 'absolute';
-                canvas.style.top = '0';
-                canvas.style.left = '0';
-                canvas.style.width = '100%';
-                canvas.style.height = '100%';
-                canvas.style.pointerEvents = 'none';
-                canvas.style.zIndex = '15';
-                wrapper.appendChild(canvas);
-                
-                const ctx = canvas.getContext('2d', {willReadFrequently: true});
-                let particles = [];
-                let animationReq;
-                
-                const initParticles = () => {
-                    const rect = logoImg.getBoundingClientRect();
-                    canvas.width = rect.width;
-                    canvas.height = rect.height;
-                    
-                    const offscreen = document.createElement('canvas');
-                    offscreen.width = canvas.width;
-                    offscreen.height = canvas.height;
-                    const octx = offscreen.getContext('2d', {willReadFrequently: true});
-                    octx.drawImage(logoImg, 0, 0, canvas.width, canvas.height);
-                    
-                    try {
-                        const imgData = octx.getImageData(0, 0, canvas.width, canvas.height).data;
-                        const gap = 5; // density of particles
-                        for(let y = 0; y < canvas.height; y += gap) {
-                            for(let x = 0; x < canvas.width; x += gap) {
-                                const idx = (y * canvas.width + x) * 4;
-                                const alpha = imgData[idx + 3];
-                                if (alpha > 150) {
-                                    particles.push({
-                                        x: canvas.width / 2 + (Math.random() - 0.5) * window.innerWidth,
-                                        y: canvas.height / 2 + (Math.random() - 0.5) * window.innerHeight,
-                                        targetX: x,
-                                        targetY: y,
-                                        color: `rgb(${imgData[idx]},${imgData[idx+1]},${imgData[idx+2]})`,
-                                        size: Math.random() * 2 + 1,
-                                        speed: Math.random() * 0.04 + 0.02
-                                    });
-                                }
-                            }
-                        }
-                        animate();
-                    } catch(e) {
-                        logoImg.style.opacity = '1';
-                    }
-                };
-                
-                if (logoImg.complete && logoImg.naturalWidth !== 0) {
-                    initParticles();
-                } else {
-                    logoImg.onload = initParticles;
-                }
-                
-                let frame = 0;
-                const animate = () => {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    let allArrived = true;
-                    
-                    particles.forEach(p => {
-                        const dx = p.targetX - p.x;
-                        const dy = p.targetY - p.y;
-                        p.x += dx * p.speed;
-                        p.y += dy * p.speed;
-                        
-                        if (Math.abs(dx) > 1 || Math.abs(dy) > 1) {
-                            allArrived = false;
-                        }
-                        
-                        ctx.fillStyle = p.color;
-                        ctx.beginPath();
-                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                        ctx.fill();
-                    });
-                    
-                    frame++;
-                    if (!allArrived && frame < 200) {
-                        animationReq = requestAnimationFrame(animate);
-                    } else {
-                        canvas.style.opacity = '0';
-                        canvas.style.transition = 'opacity 1s ease';
-                        logoImg.style.opacity = '1';
-                        setTimeout(() => canvas.remove(), 1000);
-                    }
-                };
-            }
         });
     </script>
-</body></html>
+</body>
+
+</html>

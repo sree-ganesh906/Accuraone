@@ -353,7 +353,7 @@ header.scrolled .nav-item::after {
     overflow: hidden;
     padding-top: 100px;
     padding-bottom: 60px;
-    background-image: url('hero_glass_bg_new.png?v=2');
+    background-image: url('hero_glass_bg_new.png?v=108');
     background-size: cover;
     background-position: center;
 }
@@ -413,10 +413,42 @@ header.scrolled .nav-item::after {
     position: relative;
     z-index: 10;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     width: 100%;
     min-height: calc(100vh - 160px);
+}
+
+.hero-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    max-width: 600px;
+    z-index: 20;
+    position: relative;
+    margin: 0 auto;
+    transform: translate(-12.5vh, 11vh);
+}
+
+@media (min-aspect-ratio: 1/1) {
+    .hero-sidebar {
+        transform: translate(-12.5vw, 11vw);
+    }
+}
+
+@media (min-width: 1200px) {
+    .hero-sidebar {
+        margin-top: -12vh;
+        transform: translate(-12.5vh, 23vh);
+    }
+}
+
+@media (min-width: 1200px) and (min-aspect-ratio: 1/1) {
+    .hero-sidebar {
+        transform: translate(-12.5vw, 23vw);
+    }
 }
 
 .hero-subtext {
@@ -427,14 +459,17 @@ header.scrolled .nav-item::after {
     text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     color: #ffffff;
     font-size: 1.4rem;
+    text-align: center;
+    margin: 0 auto 30px;
 }
 
 .left-hero-logo {
     position: relative;
     transform: translateY(0);
-    width: clamp(200px, 20vw, 350px);
+    width: clamp(150px, 12vw, 240px);
     z-index: 20;
     filter: drop-shadow(0 15px 30px rgba(155, 81, 224, 0.4));
+    margin: 0 auto;
 }
 
 .hero-main-logo {
@@ -1073,7 +1108,8 @@ footer {
 
     .hero-content {
         min-height: calc(100vh - 185px);
-        align-items: stretch !important;
+        align-items: center !important;
+        justify-content: center !important;
         padding-bottom: 20px !important;
     }
 
@@ -1082,21 +1118,30 @@ footer {
         width: 100%;
         display: flex !important;
         flex-direction: column !important;
-        justify-content: space-between !important;
+        justify-content: center !important;
         align-items: center !important;
+        gap: 25px !important;
+        transform: translate(-12.5vh, 9.5vh) !important;
+    }
+
+    @media (min-aspect-ratio: 1/1) {
+        .hero-sidebar {
+            transform: translate(-12.5vw, 9.5vw) !important;
+        }
     }
     
     .left-hero-logo {
         width: min(290px, 75vw);
         margin: 0 auto !important;
-        margin-bottom: 20px !important;
+        margin-bottom: 0 !important;
     }
 
     .hero-subtext {
         font-size: clamp(1.1rem, 4.5vw, 1.3rem);
         padding: 0 15px;
-        margin-top: 15px !important;
+        margin-top: 0 !important;
         margin-bottom: 0 !important;
+        text-align: center !important;
     }
 
     /* Vision & Mission boxes stack vertically */
@@ -1459,24 +1504,7 @@ section {
     background: #05020a; /* Deep dark night sky */
 }
 
-/* Custom Text Roll Stagger Effect and Hero Sidebar styling */
-.hero-sidebar {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    max-width: 550px;
-    z-index: 20;
-    position: relative;
-}
-
-@media (min-width: 1200px) {
-    .hero-sidebar {
-        margin-left: -80px;
-        margin-top: -12vh;
-    }
-}
-
+/* Custom Text Roll Stagger Effect */
 .text-roll {
     position: relative;
     display: inline-block;

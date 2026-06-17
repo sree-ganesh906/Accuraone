@@ -8,7 +8,7 @@
     <meta name="description"
         content="AccuraOne: Simplifying success, empowering business futures. Specializing in ERP, Accounting, Branding, and Vendor Registration.">
     <link href="https://fonts.cdnfonts.com/css/nexa" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=53">
+    <link rel="stylesheet" href="styles.css?v=108">
     <link rel="stylesheet" href="ScrollVelocity.css?v=11">
     <link rel="stylesheet" href="GlitchText.css?v=10">
     <link rel="stylesheet" href="MagicBento.css">
@@ -43,7 +43,7 @@
     <header id="main-header">
         <div class="container header-container">
             <a href="#" class="logo-link">
-                <img src="white_text_logo.png" alt="AccuraOne Logo" class="brand-logo">
+                <img src="white_text_logo.png?v=3" alt="AccuraOne Logo" class="brand-logo">
             </a>
             <nav class="nav-links">
                 <a href="#home" class="nav-item">Home</a>
@@ -506,7 +506,7 @@
     <footer>
         <div class="container footer-content">
             <div class="logo-link">
-                <img src="white_text_logo.png" alt="AccuraOne Logo" class="brand-logo" style="height: 40px;">
+                <img src="white_text_logo.png?v=3" alt="AccuraOne Logo" class="brand-logo" style="height: 40px;">
             </div>
             <div class="footer-links">
                 <a href="#home">Home</a>
@@ -515,6 +515,8 @@
             </div>
             <p class="copyright">&copy; 2026 AccuraOne Business Consultancy. All rights reserved.</p>
             <div class="socials">
+                <a href="https://www.facebook.com/profile.php?id=61572539214208" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/accuraone?igsh=bGMxdjJkY25jbWE5" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
                 <a href="https://x.com/Accuraone" target="_blank" title="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
                 <a href="https://youtube.com/@accuraone?si=TjYz13syO-tjRBa5" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
                 <a href="https://www.tiktok.com/@accuraone" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
@@ -536,7 +538,7 @@
     <script src="OrbitImages.js?v=6"></script>
     <script src="ParticleTextEffect.js"></script>
     <script src="TextType.js"></script>
-    <script src="LogoParticleEffect.js?v=10"></script>
+    <script src="LogoParticleEffect.js?v=14"></script>
     <script src="ScrollVelocity.js?v=10"></script>
     <script src="script.js?v=45"></script>
     <script>
@@ -662,7 +664,7 @@
             // Initialize Logo Particle Effect
             const homeSection = document.getElementById('home');
             if (homeSection) {
-                window.logoEffectInstance = new LogoParticleEffectApp('home', 'white_text_logo.png', 'left-logo-particle');
+                window.logoEffectInstance = new LogoParticleEffectApp('home', 'white_text_logo.png?v=3', 'left-logo-particle');
             }
 
             // Initialize ScrollVelocity banner
@@ -744,7 +746,7 @@
                     to: { opacity: 1, y: 0 },
                     threshold: 0.1,
                     rootMargin: '-100px',
-                    textAlign: 'left'
+                    textAlign: 'center'
                 });
             }
 
