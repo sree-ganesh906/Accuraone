@@ -266,8 +266,8 @@ class LogoParticleEffectApp {
     let particleIndex = 0;
     const coordsIndexes = [];
 
-    // Use step = 2 on mobile viewport, step = 3 on desktop for optimal density and legibility
-    const step = this.isMobileViewport ? 2 : 3; 
+    // Use step = 3 for both mobile and desktop to maintain identical clarity
+    const step = 3; 
 
     for (let y = 0; y < this.img.height; y += step) {
       for (let x = 0; x < this.img.width; x += step) {
@@ -304,7 +304,7 @@ class LogoParticleEffectApp {
       particle.maxSpeed = Math.random() * 4 + 7.5; // snappier: 7.5 to 11.5
       particle.maxForce = particle.maxSpeed * 0.06; // stronger steering force: 0.45 to 0.69
       
-      particle.particleSize = Math.random() * 1.1 + 0.9; // sleek stars
+       particle.particleSize = Math.random() * 1.1 + 0.9; // sleek stars
       
       particle.colorBlendRate = Math.random() * 0.0275 + 0.0025;
       particle.scatterAngle = Math.random() * Math.PI * 2;
@@ -314,16 +314,12 @@ class LogoParticleEffectApp {
       particle.imgX = x;
       particle.imgY = y;
       
-      particle.startColor = {
-        r: pixels[pixelIndex],
-        g: pixels[pixelIndex+1],
-        b: pixels[pixelIndex+2]
-      };
-      particle.targetColor = {
-        r: pixels[pixelIndex],
-        g: pixels[pixelIndex+1],
-        b: pixels[pixelIndex+2]
-      };
+      let r = pixels[pixelIndex];
+      let g = pixels[pixelIndex+1];
+      let b = pixels[pixelIndex+2];
+      
+      particle.startColor = { r, g, b };
+      particle.targetColor = { r, g, b };
       particle.colorWeight = 0;
     }
 
