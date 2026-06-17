@@ -304,7 +304,17 @@ class LogoParticleEffectApp {
       particle.maxSpeed = Math.random() * 4 + 7.5; // snappier: 7.5 to 11.5
       particle.maxForce = particle.maxSpeed * 0.06; // stronger steering force: 0.45 to 0.69
       
-       particle.particleSize = Math.random() * 1.1 + 0.9; // sleek stars
+      if (this.isMobileViewport) {
+        if (y >= 565) {
+          // Tagline: use tiny, super-sharp dots so close-together letters do not merge
+          particle.particleSize = Math.random() * 0.25 + 0.65;
+        } else {
+          // Main logo and emblem: standard size
+          particle.particleSize = Math.random() * 0.5 + 0.95;
+        }
+      } else {
+        particle.particleSize = Math.random() * 1.1 + 0.9; // sleek stars on desktop
+      }
       
       particle.colorBlendRate = Math.random() * 0.0275 + 0.0025;
       particle.scatterAngle = Math.random() * Math.PI * 2;
