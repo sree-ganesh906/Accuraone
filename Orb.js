@@ -304,8 +304,24 @@ function initOrb(containerId, options = {}) {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseleave', handleMouseLeave);
 
+    let isInView = true;
+    let isLoopRunning = true;
+    const observer = new IntersectionObserver((entries) => {
+        isInView = entries[0].isIntersecting;
+        if (isInView && !isLoopRunning) {
+            isLoopRunning = true;
+            lastTime = performance.now();
+            rafId = requestAnimationFrame(update);
+        }
+    }, { threshold: 0 });
+    observer.observe(container);
+
     let rafId;
     const update = t => {
+        if (!isInView) {
+            isLoopRunning = false;
+            return;
+        }
         rafId = requestAnimationFrame(update);
         const dt = (t - lastTime) * 0.001;
         lastTime = t;
@@ -328,6 +344,7 @@ function initOrb(containerId, options = {}) {
 
     return () => {
         cancelAnimationFrame(rafId);
+        observer.disconnect();
         window.removeEventListener('resize', resize);
         window.removeEventListener('mousemove', handleMouseMove);
         window.removeEventListener('mouseleave', handleMouseLeave);

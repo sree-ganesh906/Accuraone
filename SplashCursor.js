@@ -6,7 +6,7 @@ function splashCursor(options = {}) {
     DENSITY_DISSIPATION = 3.5,
     VELOCITY_DISSIPATION = 2,
     PRESSURE = 0.1,
-    PRESSURE_ITERATIONS = 20,
+    PRESSURE_ITERATIONS = 10,
     CURL = 3,
     SPLAT_RADIUS = 0.2,
     SPLAT_FORCE = 6000,
@@ -41,6 +41,8 @@ function splashCursor(options = {}) {
   // Track if the effect is still active for cleanup
   let isActive = true;
   let animationFrameId = null;
+  let lastInteractionTime = Date.now();
+  let isSleeping = false;
 
   function pointerPrototype() {
     this.id = -1;
@@ -693,6 +695,14 @@ function splashCursor(options = {}) {
 
   function updateFrame() {
     if (!isActive) return;
+    const now = Date.now();
+    if (now - lastInteractionTime > 3000) {
+      gl.clearColor(0.0, 0.0, 0.0, 0.0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      isSleeping = true;
+      animationFrameId = null;
+      return;
+    }
     const dt = calcDeltaTime();
     if (resizeCanvas()) initFramebuffers();
     updateColors(dt);
@@ -700,6 +710,15 @@ function splashCursor(options = {}) {
     step(dt);
     render(null);
     animationFrameId = requestAnimationFrame(updateFrame);
+  }
+
+  function wakeUp() {
+    lastInteractionTime = Date.now();
+    if (isSleeping) {
+      isSleeping = false;
+      lastUpdateTime = Date.now();
+      updateFrame();
+    }
   }
 
   function calcDeltaTime() {
@@ -968,6 +987,7 @@ function splashCursor(options = {}) {
 
   // Named event handlers for proper cleanup
   function handleMouseDown(e) {
+    wakeUp();
     let pointer = pointers[0];
     let posX = scaleByPixelRatio(e.clientX);
     let posY = scaleByPixelRatio(e.clientY);
@@ -977,6 +997,7 @@ function splashCursor(options = {}) {
 
   let firstMouseMoveHandled = false;
   function handleMouseMove(e) {
+    wakeUp();
     let pointer = pointers[0];
     let posX = scaleByPixelRatio(e.clientX);
     let posY = scaleByPixelRatio(e.clientY);
@@ -990,6 +1011,7 @@ function splashCursor(options = {}) {
   }
 
   function handleTouchStart(e) {
+    wakeUp();
     const touches = e.targetTouches;
     let pointer = pointers[0];
     for (let i = 0; i < touches.length; i++) {
@@ -1000,6 +1022,7 @@ function splashCursor(options = {}) {
   }
 
   function handleTouchMove(e) {
+    wakeUp();
     const touches = e.targetTouches;
     let pointer = pointers[0];
     for (let i = 0; i < touches.length; i++) {

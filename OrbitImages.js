@@ -268,9 +268,25 @@ class OrbitImages {
       this.updateScale();
     }
 
+    this.isInView = true;
+    this.isLoopRunning = true;
+    this.observer = new IntersectionObserver((entries) => {
+      this.isInView = entries[0].isIntersecting;
+      if (this.isInView && !this.isLoopRunning) {
+        this.isLoopRunning = true;
+        this.lastTime = performance.now();
+        this.animationFrameId = requestAnimationFrame(loop);
+      }
+    }, { threshold: 0 });
+    this.observer.observe(this.container);
+
     // Start Loop
     this.lastTime = performance.now();
     const loop = (timestamp) => {
+      if (!this.isInView) {
+        this.isLoopRunning = false;
+        return;
+      }
       const elapsed = (timestamp - this.lastTime) / 1000;
       this.lastTime = timestamp;
 
@@ -328,6 +344,9 @@ class OrbitImages {
     }
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
+    }
+    if (this.observer) {
+      this.observer.disconnect();
     }
   }
 }

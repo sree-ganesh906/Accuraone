@@ -42,7 +42,23 @@ function initScrollVelocity(containerId, text, baseVelocity = 100) {
         lastScrollY = currentScrollY;
     }, { passive: true });
     
+    let isInView = true;
+    let isLoopRunning = true;
+    const observer = new IntersectionObserver((entries) => {
+        isInView = entries[0].isIntersecting;
+        if (isInView && !isLoopRunning) {
+            isLoopRunning = true;
+            lastTime = performance.now();
+            requestAnimationFrame(update);
+        }
+    }, { threshold: 0 });
+    observer.observe(container);
+
     function update(time) {
+        if (!isInView) {
+            isLoopRunning = false;
+            return;
+        }
         const delta = (time - lastTime) / 1000;
         lastTime = time;
         

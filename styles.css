@@ -461,6 +461,7 @@ header.scrolled .nav-item::after {
     font-size: 1.4rem;
     text-align: center;
     margin: 0 auto 30px;
+    transform: translateY(-80px);
 }
 
 .left-hero-logo {

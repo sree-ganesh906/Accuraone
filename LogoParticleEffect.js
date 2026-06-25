@@ -181,11 +181,15 @@ class LogoParticle {
       b: Math.round(this.startColor.b + (this.targetColor.b - this.startColor.b) * this.colorWeight),
     };
 
-    // Draw high quality circular dot for premium, neat, antialiased look
     ctx.fillStyle = `rgb(${currentColor.r}, ${currentColor.g}, ${currentColor.b})`;
-    ctx.beginPath();
-    ctx.arc(this.pos.x, this.pos.y, this.particleSize, 0, Math.PI * 2);
-    ctx.fill();
+    if (this.particleSize <= 1.5) {
+      const size = this.particleSize * 2;
+      ctx.fillRect(this.pos.x - this.particleSize, this.pos.y - this.particleSize, size, size);
+    } else {
+      ctx.beginPath();
+      ctx.arc(this.pos.x, this.pos.y, this.particleSize, 0, Math.PI * 2);
+      ctx.fill();
+    }
   }
 
   kill(width, height) {
@@ -222,7 +226,6 @@ class LogoParticleEffectApp {
     
     this.particles = [];
     this.mouse = { x: -9999, y: -9999, isHovered: false };
-    this.pixelSteps = 3; // Step 3 balances visual density and performance
     this.tick = 0;
 
     // Timer control logic for auto scattered-to-formed repetition
@@ -230,9 +233,21 @@ class LogoParticleEffectApp {
     this.currentAnimState = "scattered";
     
     this.isMobileViewport = window.innerWidth <= 768;
+    this.pixelSteps = this.isMobileViewport ? 5 : 4; // Step size reduces particle counts on desktop/mobile
     
     // Maintain computed screen boundaries
     this.screenBounds = { x: 0, y: 0, w: 0, h: 0 };
+
+    this.isInView = true;
+    this.isLoopRunning = true;
+    this.observer = new IntersectionObserver((entries) => {
+      this.isInView = entries[0].isIntersecting;
+      if (this.isInView && !this.isLoopRunning) {
+        this.isLoopRunning = true;
+        this.animate();
+      }
+    }, { threshold: 0 });
+    this.observer.observe(this.container);
 
     this.init();
   }
@@ -266,8 +281,8 @@ class LogoParticleEffectApp {
     let particleIndex = 0;
     const coordsIndexes = [];
 
-    // Use step = 3 for both mobile and desktop to maintain identical clarity
-    const step = 3; 
+    // Use step based on viewport mode
+    const step = this.isMobileViewport ? 5 : 4; 
 
     for (let y = 0; y < this.img.height; y += step) {
       for (let x = 0; x < this.img.width; x += step) {
@@ -471,6 +486,10 @@ class LogoParticleEffectApp {
   }
 
   animate = () => {
+    if (!this.isInView) {
+      this.isLoopRunning = false;
+      return;
+    }
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     const mx = this.mouse.x;

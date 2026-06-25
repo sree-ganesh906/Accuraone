@@ -18,32 +18,66 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.getElementById('main-header');
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('.nav-item');
+    const skyline = document.querySelector('.hero-skyline');
 
-    window.addEventListener('scroll', () => {
+    let sectionDimensions = [];
+    function updateSectionDimensions() {
+        sectionDimensions = Array.from(sections).map(section => ({
+            id: section.getAttribute('id'),
+            top: section.offsetTop,
+            height: section.clientHeight
+        }));
+    }
+
+    let isScrollTicking = false;
+    let cachedScrollY = 0;
+
+    function onScroll() {
+        cachedScrollY = window.scrollY;
+        if (!isScrollTicking) {
+            window.requestAnimationFrame(updateScrollElements);
+            isScrollTicking = true;
+        }
+    }
+
+    function updateScrollElements() {
         // Header background toggle
-        if (window.scrollY > 50) {
+        if (cachedScrollY > 50) {
             header.classList.add('scrolled');
         } else {
             header.classList.remove('scrolled');
         }
 
-        // Active link highlighting based on scroll position
+        // Active link highlighting based on cached offsets
         let current = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (scrollY >= (sectionTop - 200)) {
-                current = section.getAttribute('id');
+        sectionDimensions.forEach(dim => {
+            if (cachedScrollY >= (dim.top - 200)) {
+                current = dim.id;
             }
         });
 
         navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href').includes(current)) {
+            const href = link.getAttribute('href');
+            if (href && href.includes(current)) {
                 link.classList.add('active');
+            } else {
+                link.classList.remove('active');
             }
         });
-    });
+
+        // Parallax Scrolling on Skyline
+        if (skyline && cachedScrollY < window.innerHeight) {
+            const speed = skyline.getAttribute('data-speed') || 0.3;
+            skyline.style.transform = `translate3d(0, ${cachedScrollY * speed}px, 0)`;
+        }
+
+        isScrollTicking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', updateSectionDimensions);
+    window.addEventListener('load', updateSectionDimensions);
+    updateSectionDimensions();
 
     // 3. Mobile Menu Toggle
     const menuToggle = document.querySelector('.menu-toggle');
@@ -120,9 +154,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const floatingIcons = document.querySelectorAll('.float-icon');
 
     if (heroSection && floatingIcons.length > 0) {
+        let mouseX = 0;
+        let mouseY = 0;
+        let isMouseTicking = false;
+
         heroSection.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            mouseX = e.pageX;
+            mouseY = e.pageY;
+            if (!isMouseTicking) {
+                window.requestAnimationFrame(updateFloatingIcons);
+                isMouseTicking = true;
+            }
+        });
+
+        function updateFloatingIcons() {
+            const xAxis = (window.innerWidth / 2 - mouseX) / 25;
+            const yAxis = (window.innerHeight / 2 - mouseY) / 25;
 
             floatingIcons.forEach(icon => {
                 // Different depth multiplier for varied effect
@@ -130,11 +177,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const multiplier = zElement / 100;
                 
                 // Add the smooth translation to the existing float animation
-                // Note: since CSS animations override transform sometimes, we update custom properties or transform directly carefully.
-                // We use transform directly here but preserve string state.
                 icon.style.transform = `translate3d(${xAxis * multiplier}px, ${yAxis * multiplier}px, 0)`;
             });
-        });
+            isMouseTicking = false;
+        }
 
         // Reset when mouse leaves
         heroSection.addEventListener('mouseleave', () => {
@@ -152,17 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 7. Parallax Scrolling on Skyline
-    const skyline = document.querySelector('.hero-skyline');
-    window.addEventListener('scroll', () => {
-        if (skyline) {
-            const scrollVal = window.scrollY;
-            const speed = skyline.getAttribute('data-speed') || 0.3;
-            if (scrollVal < window.innerHeight) {
-                skyline.style.transform = `translateY(${scrollVal * speed}px)`;
-            }
-        }
-    });
+    // 7. Parallax Scrolling on Skyline (Merged into Section 2 Scroll Ticker)
 
     // 8. Contact Form Handling (Submit to WhatsApp + custom animations)
     const contactForm = document.querySelector('.contact-form');
@@ -483,7 +519,7 @@ I would like to contact you regarding the following:
     if (skyCanvas) {
         const sCtx = skyCanvas.getContext('2d');
         let stars = [];
-        let numStars = 300;
+        let numStars = 100; // Reduced from 300 for optimization
 
         const resizeSky = () => {
             skyCanvas.width = window.innerWidth;
@@ -513,11 +549,10 @@ I would like to contact you regarding the following:
                     this.blinkSpeed = -this.blinkSpeed;
                 }
 
-                sCtx.beginPath();
-                sCtx.arc(this.x, displayY, this.size, 0, Math.PI * 2);
-                sCtx.fillStyle = this.color;
                 sCtx.globalAlpha = Math.abs(this.alpha);
-                sCtx.fill();
+                sCtx.fillStyle = this.color;
+                // Fast rect rendering replaces slow circular arc path drawing
+                sCtx.fillRect(this.x - this.size / 2, displayY - this.size / 2, this.size, this.size);
                 sCtx.globalAlpha = 1.0;
             }
         }
@@ -536,11 +571,18 @@ I would like to contact you regarding the following:
         
         window.addEventListener('scroll', () => {
             currentScrollY = window.scrollY;
+        }, { passive: true });
+
+        let isTabActive = true;
+        document.addEventListener('visibilitychange', () => {
+            isTabActive = !document.hidden;
         });
 
         const animateSky = () => {
-            sCtx.clearRect(0, 0, skyCanvas.width, skyCanvas.height);
-            stars.forEach(star => star.draw(currentScrollY));
+            if (isTabActive) {
+                sCtx.clearRect(0, 0, skyCanvas.width, skyCanvas.height);
+                stars.forEach(star => star.draw(currentScrollY));
+            }
             requestAnimationFrame(animateSky);
         };
 

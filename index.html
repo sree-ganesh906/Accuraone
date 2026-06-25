@@ -777,13 +777,14 @@
 
             // 2. Sparkling Animation
             setInterval(() => {
+                if (document.hidden) return;
                 const sparkle = document.createElement('div');
                 sparkle.classList.add('sparkle');
                 sparkle.style.left = Math.random() * window.innerWidth + 'px';
                 sparkle.style.top = Math.random() * window.innerHeight + 'px';
                 document.body.appendChild(sparkle);
                 setTimeout(() => sparkle.remove(), 2000);
-            }, 300);
+            }, 800);
 
 
         });
