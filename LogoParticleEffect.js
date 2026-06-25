@@ -21,7 +21,7 @@ class LogoParticle {
     this.scatterDistance = 40 + Math.random() * 50; // tight nearby distance
   }
 
-  move(mx, my, isHovered, isScattered, forceRadius = 140, strength = 1.2, canvasWidth = 0, canvasHeight = 0, screenBounds = null) {
+  move(mx, my, isHovered, isScattered, forceRadius = 140, strength = 1.2, canvasWidth = 0, canvasHeight = 0, screenBounds = null, tick = 0) {
     // Determine active speed and force based on state
     const activeScattered = isScattered || isHovered;
     
@@ -34,45 +34,42 @@ class LogoParticle {
     const closeEnoughTarget = activeScattered ? 60 : 15;
 
     // 1. Calculate steer force towards active target
-    let proximityMult = 1;
-    const distance = Math.sqrt(Math.pow(this.pos.x - this.target.x, 2) + Math.pow(this.pos.y - this.target.y, 2));
+    const dx = this.target.x - this.pos.x;
+    const dy = this.target.y - this.pos.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
 
+    let proximityMult = 1;
     if (distance < closeEnoughTarget) {
       proximityMult = distance / closeEnoughTarget;
     }
 
-    const towardsTarget = {
-      x: this.target.x - this.pos.x,
-      y: this.target.y - this.pos.y,
-    };
-
-    const magnitude = Math.sqrt(towardsTarget.x * towardsTarget.x + towardsTarget.y * towardsTarget.y);
-    if (magnitude > 0) {
-      towardsTarget.x = (towardsTarget.x / magnitude) * maxSpeed * proximityMult;
-      towardsTarget.y = (towardsTarget.y / magnitude) * maxSpeed * proximityMult;
+    let towardsTargetX = 0;
+    let towardsTargetY = 0;
+    if (distance > 0) {
+      towardsTargetX = (dx / distance) * maxSpeed * proximityMult;
+      towardsTargetY = (dy / distance) * maxSpeed * proximityMult;
     }
 
-    const steerX = towardsTarget.x - this.vel.x;
-    const steerY = towardsTarget.y - this.vel.y;
+    const steerX = towardsTargetX - this.vel.x;
+    const steerY = towardsTargetY - this.vel.y;
 
     const steerMagnitude = Math.sqrt(steerX * steerX + steerY * steerY);
     if (steerMagnitude > 0) {
-      const limitedForceX = (steerX / steerMagnitude) * maxForce;
-      const limitedForceY = (steerY / steerMagnitude) * maxForce;
-      this.acc.x += limitedForceX;
-      this.acc.y += limitedForceY;
+      this.acc.x += (steerX / steerMagnitude) * maxForce;
+      this.acc.y += (steerY / steerMagnitude) * maxForce;
     }
 
     // 2. Mouse cursor repulsion force when hovered
     if (isHovered && mx !== undefined && my !== undefined) {
       const mouseDX = this.pos.x - mx;
       const mouseDY = this.pos.y - my;
-      const mouseDist = Math.sqrt(mouseDX * mouseDX + mouseDY * mouseDY);
+      const mouseDistSq = mouseDX * mouseDX + mouseDY * mouseDY;
       
       const activeRadius = forceRadius > 0 ? forceRadius : 140;
       const pushStrength = strength > 0 ? strength : 1.5;
 
-      if (mouseDist < activeRadius && mouseDist > 0) {
+      if (mouseDistSq < activeRadius * activeRadius && mouseDistSq > 0) {
+        const mouseDist = Math.sqrt(mouseDistSq);
         const forceFactor = (activeRadius - mouseDist) / activeRadius;
         
         // Repel directly away from cursor
@@ -87,7 +84,7 @@ class LogoParticle {
     // 3. Galaxy drift & shimmer when activeScattered
     if (activeScattered) {
       // Ambient galaxy/star orbital drift around active target
-      const angle = (this.target.x * 0.005) + (this.target.y * 0.005) + (Date.now() * 0.001);
+      const angle = (this.target.x * 0.005) + (this.target.y * 0.005) + (tick * 0.06);
       this.acc.x += Math.cos(angle) * 0.04;
       this.acc.y += Math.sin(angle) * 0.04;
       
@@ -111,15 +108,15 @@ class LogoParticle {
 
     // Clamp displacement to keep particles within a tight nearby logo area when activeScattered
     if (activeScattered) {
-      const distFromHome = Math.sqrt(Math.pow(this.pos.x - this.target.x, 2) + Math.pow(this.pos.y - this.target.y, 2));
+      const homeDX = this.target.x - this.pos.x;
+      const homeDY = this.target.y - this.pos.y;
+      const distFromHome = Math.sqrt(homeDX * homeDX + homeDY * homeDY);
       
       // Scale max displacement with screen width (default to 225px if screenBounds is missing)
       const screenW = screenBounds ? screenBounds.w : 225;
       const maxDisplacement = isHovered ? (screenW * 0.22) : (screenW * 0.12);
       
       if (distFromHome > maxDisplacement && distFromHome > 0) {
-        const homeDX = this.target.x - this.pos.x;
-        const homeDY = this.target.y - this.pos.y;
         this.pos.x = this.target.x - (homeDX / distFromHome) * maxDisplacement;
         this.pos.y = this.target.y - (homeDY / distFromHome) * maxDisplacement;
         this.vel.x *= 0.5;
@@ -128,7 +125,7 @@ class LogoParticle {
     }
 
     // Boundary containment (contain particles inside screen quadrilateral bezel)
-    if (screenBounds && screenBounds.tl) {
+    if (activeScattered && screenBounds && screenBounds.tl) {
       const q = screenBounds;
       const p = this.pos;
       const c1 = (q.tr.x - q.tl.x) * (p.y - q.tl.y) - (q.tr.y - q.tl.y) * (p.x - q.tl.x);
@@ -144,7 +141,7 @@ class LogoParticle {
         this.vel.x *= -0.3;
         this.vel.y *= -0.3;
       }
-    } else {
+    } else if (activeScattered) {
       // Fallback containment to viewport edges
       const pad = 15;
       if (canvasWidth > 0 && canvasHeight > 0) {
@@ -182,14 +179,9 @@ class LogoParticle {
     };
 
     ctx.fillStyle = `rgb(${currentColor.r}, ${currentColor.g}, ${currentColor.b})`;
-    if (this.particleSize <= 1.5) {
-      const size = this.particleSize * 2;
-      ctx.fillRect(this.pos.x - this.particleSize, this.pos.y - this.particleSize, size, size);
-    } else {
-      ctx.beginPath();
-      ctx.arc(this.pos.x, this.pos.y, this.particleSize, 0, Math.PI * 2);
-      ctx.fill();
-    }
+    const size = this.particleSize * 2;
+    // Always use fast-path rect rendering for high performance particles
+    ctx.fillRect(this.pos.x - this.particleSize, this.pos.y - this.particleSize, size, size);
   }
 
   kill(width, height) {
@@ -514,10 +506,10 @@ class LogoParticleEffectApp {
     const forceRadius = this.screenBounds.w * 0.22; 
     const strength = 1.0;
 
-    // Draw the particles (clean round dots, let the background image's reflections work naturally)
+    // Draw the particles
     for (let i = this.particles.length - 1; i >= 0; i--) {
       const particle = this.particles[i];
-      particle.move(mx, my, isHovered, isScattered, forceRadius, strength, this.canvas.width, this.canvas.height, this.screenBounds);
+      particle.move(mx, my, isHovered, isScattered, forceRadius, strength, this.canvas.width, this.canvas.height, this.screenBounds, this.tick);
       particle.draw(this.ctx);
 
       if (particle.isKilled) {

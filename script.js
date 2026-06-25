@@ -1,4 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 0. Pause offscreen HTML5 videos to save GPU decoding resources
+    const pageVideos = document.querySelectorAll('video');
+    if (pageVideos.length > 0) {
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.play().catch(err => {});
+                } else {
+                    entry.target.pause();
+                }
+            });
+        }, { threshold: 0 });
+        pageVideos.forEach(v => videoObserver.observe(v));
+    }
+
     // 1. Preloader Assembly Logic
     const preloader = document.getElementById('preloader');
     
