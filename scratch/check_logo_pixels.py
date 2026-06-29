@@ -1,23 +1,44 @@
+import cv2
+import numpy as np
 import os
-from PIL import Image
 
-logo_path = "white_text_logo.png"
-if os.path.exists(logo_path):
-    img = Image.open(logo_path).convert("RGBA")
-    print(f"Logo size: {img.size}")
-    
-    # Check if there are any non-transparent pixels that are black (or close to black)
-    black_pixels = 0
-    total_non_transparent = 0
-    for y in range(img.height):
-        for x in range(img.width):
-            r, g, b, a = img.getpixel((x, y))
-            if a > 10:
-                total_non_transparent += 1
-                if r < 10 and g < 10 and b < 10:
-                    black_pixels += 1
-                    
-    print(f"Total non-transparent pixels: {total_non_transparent}")
-    print(f"Total black (or dark) pixels: {black_pixels}")
-else:
-    print(f"{logo_path} does not exist.")
+logos = [
+    'logo.png',
+    'logo_cropped.png',
+    'logo_icon.png',
+    'logo_icon_white.png',
+    'logo_white.png',
+    'white_logo.png',
+    'white_text_logo.png',
+    'white_text_logo_cropped.png',
+    'loading_logo.png',
+    'loading_logo_v2.png',
+    'main_logo_v2.png'
+]
+
+for logo in logos:
+    if os.path.exists(logo):
+        img = cv2.imread(logo, cv2.IMREAD_UNCHANGED)
+        h, w = img.shape[:2]
+        channels = img.shape[2]
+        print(f"File: {logo} | Shape: {img.shape}")
+        
+        # Check transparency/alpha channel
+        if channels == 4:
+            alpha = img[:, :, 3]
+            # Find non-transparent pixels (alpha > 50)
+            non_trans = img[alpha > 50]
+            # Find how many dark pixels (R, G, B < 50) are there
+            dark_pixels = np.sum(np.all(non_trans[:, :3] < 50, axis=1))
+            # Find how many white pixels (R, G, B > 200) are there
+            white_pixels = np.sum(np.all(non_trans[:, :3] > 200, axis=1))
+            print(f"  Alpha channel: Yes | Non-transparent pixels: {len(non_trans)}")
+            print(f"  Dark pixels (<50): {dark_pixels} | White pixels (>200): {white_pixels}")
+        else:
+            # Grayscale or RGB
+            dark_pixels = np.sum(np.all(img < 50, axis=2))
+            white_pixels = np.sum(np.all(img > 200, axis=2))
+            print(f"  Alpha channel: No")
+            print(f"  Dark pixels (<50): {dark_pixels} | White pixels (>200): {white_pixels}")
+    else:
+        print(f"File: {logo} | Does not exist")
