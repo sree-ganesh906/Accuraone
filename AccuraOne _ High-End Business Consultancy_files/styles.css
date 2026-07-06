@@ -449,6 +449,21 @@ header.scrolled .nav-item::after {
     margin: 0 auto 30px;
 }
 
+.hero-line {
+    display: inline-block !important;
+}
+.hero-line:not(:last-child) {
+    margin-right: 0.3em;
+}
+
+@media (max-width: 991px) {
+    .hero-line {
+        display: block !important;
+        margin-right: 0 !important;
+        margin-bottom: 8px;
+    }
+}
+
 .left-hero-logo {
     position: relative;
     transform: translateY(0);
@@ -1743,16 +1758,16 @@ section {
 }
 
 .vendor-logo-wrapper {
-    flex: 0.8;
+    flex: 0.5;
     display: flex;
     flex-direction: column;
     align-items: center;
     background: #ffffff;
-    padding: 20px;
-    border-radius: 16px;
+    padding: 12px 15px;
+    border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    max-width: 250px;
-    min-width: 200px;
+    max-width: 160px;
+    min-width: 140px;
 }
 
 .vendor-logo-wrapper img {
@@ -1762,15 +1777,15 @@ section {
 }
 
 .vendor-logo-divider {
-    margin-top: 15px;
+    margin-top: 10px;
     border-top: 1.5px solid rgba(0,0,0,0.1);
     width: 100%;
-    padding-top: 10px;
+    padding-top: 8px;
     text-align: center;
 }
 
 .vendor-logo-code-label {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     color: #666;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -1780,7 +1795,7 @@ section {
 }
 
 .vendor-logo-code {
-    font-size: 1.25rem;
+    font-size: 1.05rem;
     color: #111;
     font-weight: 900;
     font-family: monospace;
@@ -1828,8 +1843,8 @@ section {
     
     .vendor-logo-wrapper {
         order: 2 !important;
-        max-width: 220px !important;
-        min-width: 180px !important;
+        max-width: 150px !important;
+        min-width: 130px !important;
     }
     
     .vendor-text-wrapper {

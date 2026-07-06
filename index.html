@@ -8,7 +8,7 @@
     <meta name="description"
         content="AccuraOne: Simplifying success, empowering business futures. Specializing in ERP, Accounting, Branding, and Vendor Registration.">
     <link href="https://fonts.cdnfonts.com/css/nexa" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=108">
+    <link rel="stylesheet" href="styles.css?v=111">
     <link rel="stylesheet" href="ScrollVelocity.css?v=11">
     <link rel="stylesheet" href="GlitchText.css?v=10">
     <link rel="stylesheet" href="MagicBento.css">
@@ -86,9 +86,10 @@
 
             <div class="container hero-content">
                 <div class="hero-sidebar reveal blur-reveal">
-                    <!-- Welcome Description (Placed at the top) -->
                     <p class="hero-subtext">
-                        Welcome to the future of consultancy, where precision meets excellence.
+                        <span class="hero-line">Welcome to the future of consultancy,</span>
+                        <span class="hero-line">where precision meets</span>
+                        <span class="hero-line">excellence.</span>
                     </p>
 
                     <!-- Left Side Logo with Particle Animation (Placed at the bottom) -->
@@ -352,7 +353,7 @@
                             <i class="fas fa-handshake"></i> APPROVED VENDOR
                         </div>
                         <div class="vendor-logo-wrapper">
-                            <img src="saudi_aramco_logo.jpg?v=2" alt="Saudi Aramco Approved Vendor">
+                            <img src="saudi_aramco_logo.jpg?v=3" alt="Saudi Aramco Approved Vendor">
                             <div class="vendor-logo-divider">
                                 <span class="vendor-logo-code-label">Vendor Code</span>
                                 <span class="vendor-logo-code">10113618</span>
@@ -564,7 +565,7 @@
             element.style.textAlign = settings.textAlign;
             element.style.overflow = 'hidden';
             element.style.display = 'inline-block';
-            element.style.whiteSpace = 'normal';
+            element.style.whiteSpace = options.whiteSpace || '';
             element.style.wordWrap = 'break-word';
             element.style.willChange = 'transform, opacity';
             
@@ -737,17 +738,36 @@
             // Initialize SplitText animation for the welcome subtext (matching React Bits SplitText component configuration)
             const heroSubtext = document.querySelector('.hero-subtext');
             if (heroSubtext) {
-                animateSplitText(heroSubtext, {
-                    delay: 100,
-                    duration: 0.6,
-                    ease: 'power3.out',
-                    splitType: 'chars',
-                    from: { opacity: 0, y: 40 },
-                    to: { opacity: 1, y: 0 },
-                    threshold: 0.1,
-                    rootMargin: '-100px',
-                    textAlign: 'center'
-                });
+                const lines = heroSubtext.querySelectorAll('.hero-line');
+                if (lines.length > 0) {
+                    lines.forEach((line, idx) => {
+                        animateSplitText(line, {
+                            delay: 100 + (idx * 150),
+                            duration: 0.6,
+                            ease: 'power3.out',
+                            splitType: 'chars',
+                            from: { opacity: 0, y: 40 },
+                            to: { opacity: 1, y: 0 },
+                            threshold: 0,
+                            rootMargin: '0px',
+                            textAlign: 'center',
+                            whiteSpace: 'nowrap'
+                        });
+                    });
+                } else {
+                    animateSplitText(heroSubtext, {
+                        delay: 100,
+                        duration: 0.6,
+                        ease: 'power3.out',
+                        splitType: 'chars',
+                        from: { opacity: 0, y: 40 },
+                        to: { opacity: 1, y: 0 },
+                        threshold: 0,
+                        rootMargin: '0px',
+                        textAlign: 'center',
+                        whiteSpace: window.innerWidth >= 992 ? 'nowrap' : 'normal'
+                    });
+                }
             }
 
             // Initialize OrbitImages for Client Logos
