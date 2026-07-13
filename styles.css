@@ -1052,6 +1052,14 @@ footer {
 }
 
 @media (max-width: 991px) {
+    .orb-container {
+        position: absolute !important;
+        left: 50% !important;
+        top: 50% !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        transform: translate(-50%, -50%) !important;
+    }
     .hero-content {
         justify-content: center;
     }
