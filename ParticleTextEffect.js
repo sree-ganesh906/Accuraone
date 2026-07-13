@@ -184,7 +184,7 @@ class ParticleTextEffectApp {
     const offscreenCtx = offscreenCanvas.getContext("2d", { willReadFrequently: true });
 
     offscreenCtx.fillStyle = "white";
-    offscreenCtx.font = "bold 40px 'Golgols', Arial";
+    offscreenCtx.font = "bold 40px 'Outfit', Arial";
     // For left-aligned text to match layout:
     offscreenCtx.textAlign = "left";
     offscreenCtx.textBaseline = "middle";
@@ -197,9 +197,9 @@ class ParticleTextEffectApp {
     lines.forEach((line, i) => {
         // Adjust font size for the slogan
         if (line === "accuracy in every solution") {
-            offscreenCtx.font = "18px 'Golgols', Arial";
+            offscreenCtx.font = "18px 'Outfit', Arial";
         } else {
-            offscreenCtx.font = "bold 45px 'Golgols', Arial";
+            offscreenCtx.font = "bold 45px 'Outfit', Arial";
         }
         // Draw starting from x=10 for left alignment
         offscreenCtx.fillText(line, 10, startY + (i * lineHeight));

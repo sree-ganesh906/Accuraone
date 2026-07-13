@@ -183,7 +183,7 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
 
     // Draw text
     offscreenCtx.fillStyle = "white"
-    offscreenCtx.font = "bold 100px 'Golgols', Arial"
+    offscreenCtx.font = "bold 100px 'Outfit', Arial"
     offscreenCtx.textAlign = "center"
     offscreenCtx.textBaseline = "middle"
     offscreenCtx.fillText(word, canvas.width / 2, canvas.height / 2)
