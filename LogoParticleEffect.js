@@ -31,12 +31,23 @@ class LogoParticle {
     
     const maxSpeed = activeScattered ? baseSpeed * 0.6 : baseSpeed * 1.5;
     const maxForce = activeScattered ? baseForce * 0.5 : baseForce * 2.0;
-    const closeEnoughTarget = activeScattered ? 60 : 15;
+    const closeEnoughTarget = activeScattered ? 60 : 1.5;
 
     // 1. Calculate steer force towards active target
     const dx = this.target.x - this.pos.x;
     const dy = this.target.y - this.pos.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
+
+    // If logo is forming and particle is close enough, snap to target and clear physics to prevent any shaking or blur
+    if (!activeScattered && distance < 1.5) {
+      this.pos.x = this.target.x;
+      this.pos.y = this.target.y;
+      this.vel.x = 0;
+      this.vel.y = 0;
+      this.acc.x = 0;
+      this.acc.y = 0;
+      return;
+    }
 
     let proximityMult = 1;
     if (distance < closeEnoughTarget) {
@@ -273,8 +284,9 @@ class LogoParticleEffectApp {
     let particleIndex = 0;
     const coordsIndexes = [];
 
-    // Use step based on viewport mode
-    const step = this.isMobileViewport ? 5 : 4; 
+    // Use step based on viewport mode (lower step means higher particle density)
+    // Mobile uses step 4 (7,500 particles) for lagless performance, desktop uses step 3 (13,400 particles) for sharp rendering.
+    const step = this.isMobileViewport ? 4 : 3; 
 
     for (let y = 0; y < this.img.height; y += step) {
       for (let x = 0; x < this.img.width; x += step) {
@@ -308,19 +320,31 @@ class LogoParticleEffectApp {
       }
       particleIndex++;
 
-      particle.maxSpeed = Math.random() * 4 + 7.5; // snappier: 7.5 to 11.5
-      particle.maxForce = particle.maxSpeed * 0.06; // stronger steering force: 0.45 to 0.69
+      particle.maxSpeed = Math.random() * 4 + 8.5; // snappier snapping: 8.5 to 12.5
+      particle.maxForce = particle.maxSpeed * 0.08; // stronger steering force: 0.68 to 1.0
       
       if (this.isMobileViewport) {
         if (y >= 565) {
-          // Tagline: use tiny, super-sharp dots so close-together letters do not merge
-          particle.particleSize = Math.random() * 0.25 + 0.65;
+          // Tagline on mobile: small & sharp
+          particle.particleSize = Math.random() * 0.2 + 0.7;
+        } else if (y >= 470) {
+          // Company name text on mobile: larger to blend into a highly visible, solid font
+          particle.particleSize = Math.random() * 0.3 + 1.25;
         } else {
-          // Main logo and emblem: standard size
-          particle.particleSize = Math.random() * 0.5 + 0.95;
+          // Main logo emblem on mobile: standard size
+          particle.particleSize = Math.random() * 0.4 + 0.95;
         }
       } else {
-        particle.particleSize = Math.random() * 1.1 + 0.9; // sleek stars on desktop
+        if (y >= 565) {
+          // Tagline on desktop: small & sharp
+          particle.particleSize = Math.random() * 0.2 + 0.8;
+        } else if (y >= 470) {
+          // Company name text on desktop: larger to blend into a highly visible, solid font
+          particle.particleSize = Math.random() * 0.4 + 1.5;
+        } else {
+          // Main logo emblem on desktop: standard size
+          particle.particleSize = Math.random() * 0.6 + 1.1;
+        }
       }
       
       particle.colorBlendRate = Math.random() * 0.0275 + 0.0025;
@@ -489,13 +513,13 @@ class LogoParticleEffectApp {
 
     // Smoothly track layout and animation timers
     this.tick++;
+    
+    const prevState = this.currentAnimState;
     // Determine animation state based solely on hover; no automatic scattering cycle
     this.currentAnimState = isHovered ? "scattered" : "formed";
 
-    const prevState = this.currentAnimState;
-
-    // Update targets on state change or periodically for layout responsiveness
-    if (this.currentAnimState !== prevState || this.tick % 10 === 0) {
+    // Update targets only on state change to avoid periodic lag and save CPU cycles
+    if (this.currentAnimState !== prevState) {
       this.updateTargetPositions();
     }
 
