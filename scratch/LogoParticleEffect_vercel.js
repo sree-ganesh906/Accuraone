@@ -405,6 +405,7 @@ class LogoParticleEffectApp {
       br: scalePoint({ x: 594, y: 600 })
     };
 
+    // exact corners of the logo within the image to match pre-rendered layout skew
     this.logoQuad = {
       tl: scalePoint({ x: 349, y: 454 }),
       tr: scalePoint({ x: 564, y: 460 }),

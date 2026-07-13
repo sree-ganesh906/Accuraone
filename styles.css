@@ -1142,13 +1142,7 @@ footer {
         justify-content: center !important;
         align-items: center !important;
         gap: 25px !important;
-        transform: translate(-12.5vh, 9.5vh) !important;
-    }
-
-    @media (min-aspect-ratio: 1/1) {
-        .hero-sidebar {
-            transform: translate(-12.5vw, 9.5vw) !important;
-        }
+        transform: none !important;
     }
     
     .left-hero-logo {
@@ -1158,11 +1152,16 @@ footer {
     }
 
     .hero-subtext {
-        font-size: clamp(1.1rem, 4.5vw, 1.3rem);
+        font-size: clamp(0.9rem, 4.2vw, 1.25rem);
         padding: 0 15px;
-        margin-top: 0 !important;
+        margin-top: -40px !important;
         margin-bottom: 0 !important;
         text-align: center !important;
+    }
+
+    .hero-line {
+        display: block !important;
+        white-space: nowrap !important;
     }
 
     /* Vision & Mission boxes stack vertically */
