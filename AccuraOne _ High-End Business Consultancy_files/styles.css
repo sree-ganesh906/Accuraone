@@ -1031,6 +1031,16 @@ footer {
     transform: scale(0.9);
 }
 
+/* Service grid adjustment for tablet/iPad Pro views (3 columns in a single row, 4th service hidden) */
+@media (min-width: 769px) and (max-width: 1257px) {
+    .services-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+    .services-grid .service-card:nth-child(4) {
+        display: none !important;
+    }
+}
+
 @media (max-width: 1199px) {
     .hero-content {
         justify-content: center;
