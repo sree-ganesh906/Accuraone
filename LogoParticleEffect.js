@@ -18,7 +18,7 @@ class LogoParticle {
 
     // Persistent random scatter coordinates
     this.scatterAngle = Math.random() * Math.PI * 2;
-    this.scatterDistance = 40 + Math.random() * 50; // tight nearby distance
+    this.scatterDistance = 120 + Math.random() * 180; // wide explosive scatter distance
   }
 
   move(mx, my, isHovered, isScattered, forceRadius = 140, strength = 1.2, canvasWidth = 0, canvasHeight = 0, screenBounds = null, tick = 0) {
@@ -29,9 +29,9 @@ class LogoParticle {
     const baseSpeed = this.maxSpeed || 8.5;
     const baseForce = this.maxForce || 0.60;
     
-    const maxSpeed = activeScattered ? baseSpeed * 0.6 : baseSpeed * 1.5;
-    const maxForce = activeScattered ? baseForce * 0.5 : baseForce * 2.0;
-    const closeEnoughTarget = activeScattered ? 60 : 1.5;
+    const maxSpeed = activeScattered ? baseSpeed * 0.8 : baseSpeed * 1.5;
+    const maxForce = activeScattered ? baseForce * 0.7 : baseForce * 2.0;
+    const closeEnoughTarget = activeScattered ? 80 : 1.5;
 
     // 1. Calculate steer force towards active target
     const dx = this.target.x - this.pos.x;
@@ -70,38 +70,38 @@ class LogoParticle {
       this.acc.y += (steerY / steerMagnitude) * maxForce;
     }
 
-    // 2. Mouse cursor repulsion force when hovered
+    // 2. Mouse cursor repulsion force when hovered — strong explosive push
     if (isHovered && mx !== undefined && my !== undefined) {
       const mouseDX = this.pos.x - mx;
       const mouseDY = this.pos.y - my;
       const mouseDistSq = mouseDX * mouseDX + mouseDY * mouseDY;
       
-      const activeRadius = forceRadius > 0 ? forceRadius : 140;
+      const activeRadius = forceRadius > 0 ? forceRadius * 2.2 : 300;
       const pushStrength = strength > 0 ? strength : 1.5;
 
       if (mouseDistSq < activeRadius * activeRadius && mouseDistSq > 0) {
         const mouseDist = Math.sqrt(mouseDistSq);
         const forceFactor = (activeRadius - mouseDist) / activeRadius;
         
-        // Repel directly away from cursor
-        const forceX = (mouseDX / mouseDist) * forceFactor * pushStrength * 5;
-        const forceY = (mouseDY / mouseDist) * forceFactor * pushStrength * 5;
+        // Strong repulsion — particles blast away from cursor
+        const forceX = (mouseDX / mouseDist) * forceFactor * pushStrength * 18;
+        const forceY = (mouseDY / mouseDist) * forceFactor * pushStrength * 18;
         
         this.acc.x += forceX;
         this.acc.y += forceY;
       }
     }
 
-    // 3. Galaxy drift & shimmer when activeScattered
+    // 3. Galaxy drift & shimmer when activeScattered — amplified for dramatic scatter
     if (activeScattered) {
       // Ambient galaxy/star orbital drift around active target
-      const angle = (this.target.x * 0.005) + (this.target.y * 0.005) + (tick * 0.06);
-      this.acc.x += Math.cos(angle) * 0.04;
-      this.acc.y += Math.sin(angle) * 0.04;
+      const angle = (this.target.x * 0.005) + (this.target.y * 0.005) + (tick * 0.04);
+      this.acc.x += Math.cos(angle) * 0.15;
+      this.acc.y += Math.sin(angle) * 0.15;
       
-      // Gentle jitter/noise
-      this.acc.x += (Math.random() - 0.5) * 0.08;
-      this.acc.y += (Math.random() - 0.5) * 0.08;
+      // Stronger jitter/noise for chaotic scatter feel
+      this.acc.x += (Math.random() - 0.5) * 0.35;
+      this.acc.y += (Math.random() - 0.5) * 0.35;
     }
 
     // Apply acceleration to velocity
@@ -123,9 +123,9 @@ class LogoParticle {
       const homeDY = this.target.y - this.pos.y;
       const distFromHome = Math.sqrt(homeDX * homeDX + homeDY * homeDY);
       
-      // Scale max displacement with screen width (default to 225px if screenBounds is missing)
+      // Scale max displacement with screen width — much wider scatter zone
       const screenW = screenBounds ? screenBounds.w : 225;
-      const maxDisplacement = isHovered ? (screenW * 0.22) : (screenW * 0.12);
+      const maxDisplacement = isHovered ? (screenW * 0.55) : (screenW * 0.35);
       
       if (distFromHome > maxDisplacement && distFromHome > 0) {
         this.pos.x = this.target.x - (homeDX / distFromHome) * maxDisplacement;
@@ -349,7 +349,7 @@ class LogoParticleEffectApp {
       
       particle.colorBlendRate = Math.random() * 0.0275 + 0.0025;
       particle.scatterAngle = Math.random() * Math.PI * 2;
-      particle.scatterDistance = 40 + Math.random() * 50;
+      particle.scatterDistance = 120 + Math.random() * 180;
 
       // Keep original image coordinate markers
       particle.imgX = x;
@@ -470,8 +470,8 @@ class LogoParticleEffectApp {
           p.target.x = homeX;
           p.target.y = homeY;
         } else {
-          // Scattered target position nearby (scaled to screen size)
-          const scatterDistance = p.scatterDistance * scale * 0.45;
+          // Scattered target position — wide explosive scatter
+          const scatterDistance = p.scatterDistance * scale * 0.85;
           p.target.x = homeX + Math.cos(p.scatterAngle) * scatterDistance;
           p.target.y = homeY + Math.sin(p.scatterAngle) * scatterDistance;
         }
@@ -518,16 +518,26 @@ class LogoParticleEffectApp {
     // Determine animation state based solely on hover; no automatic scattering cycle
     this.currentAnimState = isHovered ? "scattered" : "formed";
 
-    // Update targets only on state change to avoid periodic lag and save CPU cycles
+    // Update targets on state change & give particles an explosive velocity burst on scatter start
     if (this.currentAnimState !== prevState) {
       this.updateTargetPositions();
+      
+      // Explosive burst when transitioning TO scattered state
+      if (this.currentAnimState === "scattered") {
+        this.particles.forEach(p => {
+          const burstAngle = p.scatterAngle + (Math.random() - 0.5) * 1.2;
+          const burstSpeed = 12 + Math.random() * 18;
+          p.vel.x += Math.cos(burstAngle) * burstSpeed;
+          p.vel.y += Math.sin(burstAngle) * burstSpeed;
+        });
+      }
     }
 
     const isScattered = (this.currentAnimState === "scattered");
     
-    // Scale pointer repulsion radius based on computed screen size (around 22% of screen width)
-    const forceRadius = this.screenBounds.w * 0.22; 
-    const strength = 1.0;
+    // Scale pointer repulsion radius — large area for dramatic push
+    const forceRadius = this.screenBounds.w * 0.40; 
+    const strength = 1.8;
 
     // Draw the particles
     for (let i = this.particles.length - 1; i >= 0; i--) {
